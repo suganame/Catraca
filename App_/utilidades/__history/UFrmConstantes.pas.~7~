@@ -1,0 +1,20 @@
+unit UFrmConstantes;
+
+interface
+
+// CONSTANTES DE RETORNO
+  const RET_OK = 0;
+  const RET_ERRO = 1;
+  const RET_PORTA_NAO_ABERTA = 2;
+  const RET_PORTA_JA_ABERTA = 3;
+  const RET_DLL_INNER2K_NAO_ENCONTRADA = 4;
+  const RET_DLL_INNERTCP_NAO_ENCONTRADA = 5;
+  const RET_DLL_INNERTCPLIB_NAO_ENCONTRADA = 6;
+  const RET_FUNCAO_NAO_SUPORTADA_PARA_TIPO_DE_CONEXAO = 7;
+  const RET_ERRO_GPF = 8;
+  const RET_CONEXAO_INVALIDA = 9;
+  const RET_DLL_INNER_NAO_ENCONTRADA = 10;
+
+implementation
+
+end.
