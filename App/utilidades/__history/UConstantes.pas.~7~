@@ -15,10 +15,6 @@ interface
   const RET_CONEXAO_INVALIDA = 9;
   const RET_DLL_INNER_NAO_ENCONTRADA = 10;
 
-  // CONSTANTES DE PARAMETRO DE MODO DO INNER
-  const MODO_OFFLINE = 0;
-  const MODO_ONLINE = 1;
-
   // ENUMERADORES ESTADOS INNER
   Type enumEstadosInner = (
      ESTADO_CONECTAR,
@@ -73,7 +69,7 @@ interface
     ValorLeitor2                : Integer;
     Teclado                     : Boolean;
     Temporizador                : TDateTime;
-    EstadoSolicitacaoPingOnLine : enumEstadosInner;
+//    EstadoSolicitacaoPingOnLine : enumEstadosInner;
     TempoInicialMensagem        : TDateTime;
     ListaBio                    : Boolean;
     Lista                       : Boolean;

@@ -36,7 +36,6 @@ type
     procedure EnviarMensagemPadrado();
     procedure ConfigurarEntradasOnline();
     procedure Pooling();
-    procedure PingOnline();
 
   public
     { Public declarations }
@@ -254,28 +253,6 @@ begin
       end;
     end;
   end;
-end;
-
-procedure TFrmPrincipal.PingOnline;
-begin
-
-  lblStatus.Caption := 'Ping Online';
-
-  with InnerCadastrados[InnerAtual] do
-  begin
-  
-    Retorno := PingOnLine(Numero);
-
-    if ( Retorno = RET_OK ) then
-    begin  
-    
-      EstadoAtual := EstadoSolicitacaoPingOnline;
-//    
-    end;
-  
-  end;
-
-  
 end;
 
 procedure TFrmPrincipal.Pooling;

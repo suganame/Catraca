@@ -38,12 +38,4 @@ object FrmPrincipal: TFrmPrincipal
     TabOrder = 1
     OnClick = Button2Click
   end
-  object Button3: TButton
-    Left = 328
-    Top = 232
-    Width = 137
-    Height = 25
-    Caption = 'Habilitar Catraca'
-    TabOrder = 2
-  end
 end

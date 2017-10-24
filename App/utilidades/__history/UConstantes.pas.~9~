@@ -73,7 +73,7 @@ interface
     ValorLeitor2                : Integer;
     Teclado                     : Boolean;
     Temporizador                : TDateTime;
-    EstadoSolicitacaoPingOnLine : enumEstadosInner;
+//    EstadoSolicitacaoPingOnLine : enumEstadosInner;
     TempoInicialMensagem        : TDateTime;
     ListaBio                    : Boolean;
     Lista                       : Boolean;

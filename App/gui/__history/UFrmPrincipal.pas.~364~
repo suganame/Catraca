@@ -269,8 +269,8 @@ begin
     if ( Retorno = RET_OK ) then
     begin  
     
-      EstadoAtual := EstadoSolicitacaoPingOnline;
-//    
+//      EstadoAtual := EstadoSol
+    
     end;
   
   end;

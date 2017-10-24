@@ -45,3 +45,12 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+App/gui/__history/UFrmPrincipal.dfm.~1~
+App_/__history/Catraca.dpr.~1~
+*.dcu
+*.exe
+*.local
+*.identcache
+*.res
+*.~6~
+App/gui/__history/UFrmPrincipal.dfm.~4~

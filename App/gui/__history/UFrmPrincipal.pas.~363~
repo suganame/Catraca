@@ -264,14 +264,7 @@ begin
   with InnerCadastrados[InnerAtual] do
   begin
   
-    Retorno := PingOnLine(Numero);
-
-    if ( Retorno = RET_OK ) then
-    begin  
     
-      EstadoAtual := EstadoSolicitacaoPingOnline;
-//    
-    end;
   
   end;
 
