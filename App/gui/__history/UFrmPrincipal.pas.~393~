@@ -25,6 +25,7 @@ type
     procedure MaquinaDeEstados();
     procedure SetConfiguracaoInner( Modo : Integer);
     procedure ConfigurarEntradaMudancasOnline( NumInner : Integer);
+    procedure HabilitarLadoCatraca( lado: String );
 
 
   //  Procedimentos da maquina de estados
@@ -37,6 +38,8 @@ type
     procedure ConfigurarEntradasOnline();
     procedure Pooling();
     procedure PingOnline();
+    procedure TrataConfigsCartao();
+    procedure LiberarCatraca();
 
   public
     { Public declarations }
@@ -48,7 +51,7 @@ var
   InnerCadastrados : array of inner;
   TotalInners, InnerAtual : Integer;
   Retorno : Byte;
-  Parar : Boolean;
+  Parar, LiberaEntrada, LiberaEntradaInvertida, LiberaSaida, LiberaSaidaInvertida : Boolean;
 
 implementation
 
@@ -129,7 +132,6 @@ begin
     DefinirFuncaoDefaultSensorBiometria(0);
     ReceberDataHoraDadosOnLine(1);
 
-    
   end;
 
 end;
@@ -177,11 +179,81 @@ begin
       EstadoAtual := ESTADO_CONECTAR;
     
     end;
-
-    
-    
     
   end;
+end;
+
+procedure TFrmPrincipal.HabilitarLadoCatraca(lado: String);
+begin
+
+  if ( UpperCase(lado) = 'ENTRADA' ) then
+  begin
+  
+    LiberaEntradaInvertida := True;
+    LiberaEntrada := False;
+  
+  end
+  else
+  begin
+
+    LiberaSaidaInvertida := True;
+    LiberaSaida := False;
+  
+  end;
+  
+end;
+
+procedure TFrmPrincipal.LiberarCatraca;
+begin
+
+  lblStatus.Caption := 'Liberando Giro da catraca';
+
+  with InnerCadastrados[InnerAtual] do
+  begin
+  
+    try   
+
+      if( LiberaEntrada ) then
+      begin
+      
+        EnviarMensagemPadraoOnLine(Numero, 0, 'ENTRADA LIBERADA');
+        LiberaEntrada := False;
+        Retorno := LiberarCatracaEntrada(Numero);
+        
+      end
+      else if ( LiberaEntradaInvertida ) then
+      begin
+      
+        EnviarMensagemPadraoOnLine(Numero, 0, 'ENTRADA LIBERADA');
+        LiberaEntradaInvertida := False;
+        Retorno := LiberarCatracaEntradaInvertida(Numero);
+      
+      end
+      else if ( LiberaSaida ) then
+      begin
+
+        EnviarMensagemPadraoOnLine(Numero, 0, 'SAIDA LIBERADA');
+        LiberaSaida := False;
+        Retorno := LiberarCatracaSaida(Numero);
+      
+      end
+      else if ( LiberaSaidaInvertida ) then           
+      begin
+
+        EnviarMensagemPadraoOnLine( Numero, 0, 'SAIDA LIBERADA' );
+        LiberaSaidaInvertida := False;
+        Retorno := LiberarCatracaSaidaInvertida( Numero );
+      
+      end;
+
+    except
+
+    end;
+  
+  end;
+
+  
+
 end;
 
 procedure TFrmPrincipal.SetConfiguracaoInicialInner;
@@ -229,8 +301,14 @@ begin
 //        ESTADO_ENVIAR_MSG_PADRAO: ;
         ESTADO_CONFIGURAR_ENTRADAS_ONLINE: 
           ConfigurarEntradasOnline();
-//        ESTADO_POLLING: ;
-//        ESTADO_LIBERAR_CATRACA: ;
+          
+        ESTADO_POLLING: 
+          Pooling();
+        
+        ESTADO_LIBERAR_CATRACA: 
+          LiberarCatraca();
+        
+        
 //        ESTADO_ENVIAR_BIPCURTO: ;
 //        ESTADO_MONITORA_GIRO_CATRACA: ;
 //        PING_ONLINE: ;
@@ -247,7 +325,8 @@ begin
 //        ESTADO_ENVIAR_HORARIOS: ;
 //        ESTADO_ENVIAR_CONFIGS_ONLINE_OFFLINE: ;
 //        ESTADO_ENVIAR_MSG_ACESSO_NEGADO: ;
-//        ESTADO_TRATA_CARTAO_TRATA_CONFIGS: ;
+        ESTADO_TRATA_CARTAO_TRATA_CONFIGS: 
+          TrataConfigsCartao();
 //        ESTADO_VALIDAR_ACESSO: ;
 //        ESTADO_VERIFICAR_SENHA: ;
 //        ESTADO_ENVIAR_CONFIGMUD_ONLINE_OFFLINE: ;
@@ -266,16 +345,34 @@ begin
   
     Retorno := PingOnLine(Numero);
 
-    if ( Retorno = RET_OK ) then
-    begin  
+    try
     
-//      EstadoAtual := EstadoSol
+      if ( Retorno = RET_OK ) then
+      begin
+    
+        EstadoAtual := EstadoSolicitacaoPingOnline;
+
+      end
+      else
+      begin
+
+        if( CountTentativasEnvioComando >= 3 ) then
+          EstadoAtual := ESTADO_RECONECTAR;
+
+        Inc( CountTentativasEnvioComando );
+
+      end;
+
+      TempoInicialPingOnLine := Now;
+    
+    except
+
+      EstadoAtual := ESTADO_CONECTAR;
     
     end;
-  
+    
   end;
 
-  
 end;
 
 procedure TFrmPrincipal.Pooling;
@@ -308,6 +405,7 @@ begin
         if ( StrToInt( FormatDateTime('ss', tempo) ) >= 3 ) then
         begin    
         
+          EstadoSolicitacaoPingOnLine := EstadoAtual;
           CountTentativasEnvioComando := 0;
           TempoInicialPingOnLine := Now;
           EstadoAtual := PING_ONLINE;
@@ -634,6 +732,11 @@ begin
    TestaConexaoInner := ReceberRelogio(NumInner, @Dia, @Mes, @Ano, @Hora, @Minuto, @Segundo);
 
    Application.ProcessMessages;
+
+end;
+
+procedure TFrmPrincipal.TrataConfigsCartao;
+begin
 
 end;
 
