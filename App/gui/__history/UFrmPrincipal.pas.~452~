@@ -162,7 +162,6 @@ end;
 
 procedure TFrmPrincipal.EnviarMensagemPadrado;
 begin
-
   lblStatus.Caption := 'Enviando Mensagem Padrao';
 
   with InnerCadastrados[InnerAtual] do
@@ -667,10 +666,6 @@ end;
 
 procedure TFrmPrincipal.EnviarConfigOnline;
 begin
-
-  // Pega as configurações setadas e tenta enviar para o inner
-  // Modo online
-
   lblStatus.Caption := 'Enviando Configurações online';
 
   with InnerCadastrados[InnerAtual] do
@@ -698,10 +693,8 @@ begin
 
       if retorno = RET_OK then
       begin
-
         lblStatus.Caption := 'Configurações enviadas';
-        EstadoAtual := ESTADO_ENVIAR_DATA_HORA;
-
+        Parar := True;
       end
       else
       begin
@@ -743,7 +736,7 @@ begin
       begin
 
         ShowMessage('Data e hora atualizados!');
-        EstadoAtual := ESTADO_ENVIAR_MSG_PADRAO;
+        Parar := True;
 
       end
       else
@@ -784,8 +777,6 @@ begin
 
     if retorno = RET_OK then
     begin
-
-      // Caso consiga uma conexão entra no estado de enviar configurações online
 
       lblStatus.Caption := 'Conectado';
       CountTentativasEnvioComando := 0;

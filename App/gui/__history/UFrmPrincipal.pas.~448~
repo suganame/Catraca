@@ -162,7 +162,6 @@ end;
 
 procedure TFrmPrincipal.EnviarMensagemPadrado;
 begin
-
   lblStatus.Caption := 'Enviando Mensagem Padrao';
 
   with InnerCadastrados[InnerAtual] do
@@ -521,9 +520,6 @@ begin
       else
       begin
 
-        // Caso o resultado seja negativo tenta enviar mais 3 vezes
-        // Se mesmo assim continuar negativo, entra em estado de reconexão
-
         if ( CountTentativasEnvioComando >= 3 ) then
         begin
 
@@ -667,10 +663,6 @@ end;
 
 procedure TFrmPrincipal.EnviarConfigOnline;
 begin
-
-  // Pega as configurações setadas e tenta enviar para o inner
-  // Modo online
-
   lblStatus.Caption := 'Enviando Configurações online';
 
   with InnerCadastrados[InnerAtual] do
@@ -698,10 +690,8 @@ begin
 
       if retorno = RET_OK then
       begin
-
         lblStatus.Caption := 'Configurações enviadas';
-        EstadoAtual := ESTADO_ENVIAR_DATA_HORA;
-
+        Parar := True;
       end
       else
       begin
@@ -743,7 +733,7 @@ begin
       begin
 
         ShowMessage('Data e hora atualizados!');
-        EstadoAtual := ESTADO_ENVIAR_MSG_PADRAO;
+        Parar := True;
 
       end
       else
@@ -775,23 +765,17 @@ procedure TFrmPrincipal.Reconectar;
 begin
   lblStatus.Caption := 'Estado de reconexao';
 
-  // Estado de reconexão, fica tentando conectar até que consiga uma resposta
-
   with InnerCadastrados[InnerAtual] do
   begin
 
-    Retorno := TestaConexaoInner(Numero);
+  Retorno := TestaConexaoInner(Numero);
 
-    if retorno = RET_OK then
-    begin
-
-      // Caso consiga uma conexão entra no estado de enviar configurações online
-
-      lblStatus.Caption := 'Conectado';
-      CountTentativasEnvioComando := 0;
-      EstadoAtual := ESTADO_ENVIAR_CFG_ONLINE;
-
-    end
+  if retorno = RET_OK then
+  begin
+    lblStatus.Caption := 'Conectado';
+    CountTentativasEnvioComando := 0;
+    EstadoAtual := ESTADO_ENVIAR_CFG_ONLINE;
+  end
 
   end;
 end;
@@ -811,8 +795,6 @@ begin
    Hora    := 0;
    Minuto  := 0;
    Segundo := 0;
-
-  // Tenta conexão pedindo as configurações de data e hora do inner.
 
    TestaConexaoInner := ReceberRelogio(NumInner, @Dia, @Mes, @Ano, @Hora, @Minuto, @Segundo);
 

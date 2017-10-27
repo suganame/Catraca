@@ -1,0 +1,16 @@
+unit UDAOConexao;
+
+interface
+
+type
+
+  TDAOConexao = class
+
+  public
+    class function ConectarBase() : TAD
+
+  end;
+
+implementation
+
+end.

@@ -5,7 +5,7 @@ uses
   UFrmPrincipal in 'gui\UFrmPrincipal.pas' {FrmPrincipal},
   UFuncoes in 'utilidades\UFuncoes.pas',
   UConstantes in 'utilidades\UConstantes.pas',
-  UFrmConfiguracoes in 'gui\UFrmConfiguracoes.pas' {FrmConfiguracoes};
+  UDMConexao in 'dao\UDMConexao.pas' {DataModule2: TDataModule};
 
 {$R *.res}
 
@@ -13,6 +13,6 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TFrmPrincipal, FrmPrincipal);
-  Application.CreateForm(TFrmConfiguracoes, FrmConfiguracoes);
+  Application.CreateForm(TDataModule2, DataModule2);
   Application.Run;
 end.

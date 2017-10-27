@@ -69,7 +69,6 @@ object FrmPrincipal: TFrmPrincipal
     end
     object MenuItemConfiguracoes: TMenuItem
       Caption = 'Configurar'
-      OnClick = MenuItemConfiguracoesClick
     end
     object TMenuItem
     end

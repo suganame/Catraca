@@ -1,0 +1,11 @@
+unit UDAOConexao;
+
+interface
+
+type
+
+  TDAOConexao = class
+
+implementation
+
+end.

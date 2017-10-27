@@ -162,7 +162,6 @@ end;
 
 procedure TFrmPrincipal.EnviarMensagemPadrado;
 begin
-
   lblStatus.Caption := 'Enviando Mensagem Padrao';
 
   with InnerCadastrados[InnerAtual] do

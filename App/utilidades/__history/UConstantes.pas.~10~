@@ -43,6 +43,7 @@ interface
      ESTADO_ENVIAR_HORARIOS,
      ESTADO_ENVIAR_CONFIGS_ONLINE_OFFLINE,
      ESTADO_ENVIAR_MSG_ACESSO_NEGADO,
+     //Funcao VSenha: Declaracao da constante para inserir na M. de Estados
      ESTADO_TRATA_CARTAO_TRATA_CONFIGS,
      ESTADO_VALIDAR_ACESSO,
      ESTADO_VERIFICAR_SENHA,

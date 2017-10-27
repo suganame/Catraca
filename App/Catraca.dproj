@@ -83,6 +83,10 @@
 			</DCCReference>
 			<DCCReference Include="utilidades\UFuncoes.pas"/>
 			<DCCReference Include="utilidades\UConstantes.pas"/>
+			<DCCReference Include="gui\UFrmConfiguracoes.pas">
+				<Form>FrmConfiguracoes</Form>
+				<FormType>dfm</FormType>
+			</DCCReference>
 			<BuildConfiguration Include="Release">
 				<Key>Cfg_2</Key>
 				<CfgParent>Base</CfgParent>

@@ -1,0 +1,34 @@
+unit UDAOConexao;
+
+interface
+
+uses
+  ADODB;
+
+type
+
+  TDAOConexao = class
+
+  public
+    class function ConectarBase() : TADOConnection;
+
+  end;
+
+implementation
+
+{ TDAOConexao }
+
+class function TDAOConexao.ConectarBase: TADOConnection;
+var
+
+  ADOConn : TADOConnection;
+  Path : String;
+  StrConn : String;
+
+begin
+
+  ADOConn := TADOConnection.Create(nil);
+
+end;
+
+end.
