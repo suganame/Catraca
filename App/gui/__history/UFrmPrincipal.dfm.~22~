@@ -66,8 +66,8 @@ object FrmPrincipal: TFrmPrincipal
     OnClick = Button5Click
   end
   object MenuPrincipal: TMainMenu
-    Left = 40
-    Top = 24
+    Left = 184
+    Top = 64
     object TMenuItem
     end
     object MenuItemConfiguracoes: TMenuItem
@@ -80,12 +80,7 @@ object FrmPrincipal: TFrmPrincipal
   object QryPrincipal: TSQLQuery
     MaxBlobSize = -1
     Params = <>
-    SQLConnection = ScnBanco
     Left = 488
-    Top = 40
-  end
-  object ScnBanco: TSQLConnection
-    Left = 424
     Top = 40
   end
 end

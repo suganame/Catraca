@@ -26,7 +26,7 @@ object FrmPrincipal: TFrmPrincipal
     Top = 184
     Width = 75
     Height = 25
-    Caption = 'Iniciar'
+    Caption = 'Button1'
     TabOrder = 0
     OnClick = Button1Click
   end
@@ -35,7 +35,7 @@ object FrmPrincipal: TFrmPrincipal
     Top = 184
     Width = 75
     Height = 25
-    Caption = 'Parar'
+    Caption = 'Button2'
     TabOrder = 1
     OnClick = Button2Click
   end
@@ -47,27 +47,24 @@ object FrmPrincipal: TFrmPrincipal
     Caption = 'Habilitar Catraca'
     TabOrder = 2
   end
-  object Button4: TButton
-    Left = 432
-    Top = 8
-    Width = 145
-    Height = 25
-    Caption = 'Conectar com o banco'
+  object EdtCaminhoBanco: TEdit
+    Left = 40
+    Top = 186
+    Width = 121
+    Height = 21
     TabOrder = 3
-    OnClick = Button4Click
   end
-  object Button5: TButton
-    Left = 536
-    Top = 39
-    Width = 99
+  object Button4: TButton
+    Left = 56
+    Top = 219
+    Width = 75
     Height = 25
-    Caption = 'Executar select'
+    Caption = 'Button4'
     TabOrder = 4
-    OnClick = Button5Click
   end
   object MenuPrincipal: TMainMenu
-    Left = 40
-    Top = 24
+    Left = 184
+    Top = 64
     object TMenuItem
     end
     object MenuItemConfiguracoes: TMenuItem
@@ -77,15 +74,8 @@ object FrmPrincipal: TFrmPrincipal
     object TMenuItem
     end
   end
-  object QryPrincipal: TSQLQuery
-    MaxBlobSize = -1
-    Params = <>
-    SQLConnection = ScnBanco
-    Left = 488
-    Top = 40
-  end
   object ScnBanco: TSQLConnection
-    Left = 424
-    Top = 40
+    Left = 600
+    Top = 16
   end
 end

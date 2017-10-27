@@ -2,8 +2,6 @@ unit UConstantes;
 
 interface
 
-uses Bilhete;
-
   // CONSTANTES DE RETORNO
   const RET_OK = 0;
   const RET_ERRO = 1;

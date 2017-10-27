@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, UConstantes, UFuncoes, UFrmConfiguracoes,
-  Vcl.Menus;
+  Vcl.Menus, Data.DB, Data.SqlExpr, DBXFirebird, Data.FMTBcd;
 
 type
   TFrmPrincipal = class(TForm)
@@ -13,16 +13,20 @@ type
     lblStatus: TLabel;
     Button2: TButton;
     Button3: TButton;
-    EdtCaminhoBanco: TEdit;
-    Button4: TButton;
     MenuPrincipal: TMainMenu;
     MenuItemConfiguracoes: TMenuItem;
+    Button4: TButton;
+    Button5: TButton;
+    QryPrincipal: TSQLQuery;
+    ScnBanco: TSQLConnection;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure MenuItemConfiguracoesClick(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
+    procedure Button5Click(Sender: TObject);
   private
     { Private declarations }
-    
+
     function TestaConexaoInner( NumInner : Integer) : Integer;
     function 	BinarioParaDecimal(valorBinario: String) : String;
     function AbrirConexao : Integer;
@@ -33,6 +37,8 @@ type
     procedure SetConfiguracaoInner( Modo : Integer);
     procedure HabilitarLadoCatraca( lado: String );
 
+    procedure ConectaBanco();
+
 
   //  Procedimentos da maquina de estados
     procedure Conectar();
@@ -40,10 +46,10 @@ type
     procedure EnviarConfigOffline();
     procedure EnviarConfigOnline();
     procedure EnviarDataHora();
-    procedure EnviarMensagemPadrado();
+    procedure EnviarMensagemPadrao();
     procedure ConfigurarEntradasOnline();
     procedure Pooling();
-    procedure PingOnline();
+    procedure EnviarPingOnline();
     procedure TrataConfigsCartao();
     procedure LiberarCatraca();
 
@@ -115,8 +121,8 @@ var
   PadraoCartao : Integer;
 begin
 
-  Porta := StrToInt( FrmConfiguracoes.EdtPorta.Text );
-  PadraoCartao := FrmConfiguracoes.CbxPadraoCartao.ItemIndex;
+//  Porta := StrToInt( FrmConfiguracoes.EdtPorta.Text );
+//  PadraoCartao := FrmConfiguracoes.CbxPadraoCartao.ItemIndex;
 
   DefinirTipoConexao(2);
   DefinirPadraoCartao(1);
@@ -160,7 +166,35 @@ begin
   Parar := True;
 end;
 
-procedure TFrmPrincipal.EnviarMensagemPadrado;
+procedure TFrmPrincipal.Button4Click(Sender: TObject);
+begin
+  ConectaBanco();
+end;
+
+procedure TFrmPrincipal.Button5Click(Sender: TObject);
+begin
+
+  with QryPrincipal do
+  begin
+
+    Close;
+    SQL.Clear;
+
+    SQL.Add('SELECT * FROM TAB_CLIENTE');
+
+    Open;
+    First;
+
+  end;
+
+  QryPrincipal.RecordCount;
+
+  ShowMessage( IntToStr( QryPrincipal.RecordCount ) );
+
+
+end;
+
+procedure TFrmPrincipal.EnviarMensagemPadrao;
 begin
 
   lblStatus.Caption := 'Enviando Mensagem Padrao';
@@ -174,9 +208,10 @@ begin
 
       if ( Retorno = RET_OK ) then
       begin
-      
-        CountTentativasEnvioComando := 0;
+
+        ShowMessage('Mensagem enviada OK');
         EstadoAtual := ESTADO_CONFIGURAR_ENTRADAS_ONLINE;
+        CountTentativasEnvioComando := 0;
       
       end
       else
@@ -274,13 +309,15 @@ begin
 
       if ( Retorno = RET_OK ) then
       begin
-      
+
+        ShowMessage('Liberando Catraca');
         AcionarBipCurto( Numero );
         CountPingFail := 0;
         CountTentativasEnvioComando := 0;
         TempoInicialPingOnLine := Now;
-        EstadoAtual := ESTADO_MONITORA_GIRO_CATRACA;
-        
+//        EstadoAtual := ESTADO_MONITORA_GIRO_CATRACA;
+        EstadoAtual := ESTADO_ENVIAR_MSG_PADRAO;
+
       end
       else
       begin
@@ -356,7 +393,9 @@ begin
         ESTADO_ENVIAR_DATA_HORA:
           EnviarDataHora();
 
-//        ESTADO_ENVIAR_MSG_PADRAO: ;
+        ESTADO_ENVIAR_MSG_PADRAO:
+          EnviarMensagemPadrao();
+
         ESTADO_CONFIGURAR_ENTRADAS_ONLINE: 
           ConfigurarEntradasOnline();
           
@@ -369,7 +408,9 @@ begin
         
 //        ESTADO_ENVIAR_BIPCURTO: ;
 //        ESTADO_MONITORA_GIRO_CATRACA: ;
-//        PING_ONLINE: ;
+
+        PING_ONLINE:
+          EnviarPingOnline();
 
         ESTADO_RECONECTAR:
           Reconectar();
@@ -398,7 +439,7 @@ begin
   FrmConfiguracoes.Show;
 end;
 
-procedure TFrmPrincipal.PingOnline;
+procedure TFrmPrincipal.EnviarPingOnline;
 begin
 
   lblStatus.Caption := 'Ping Online';
@@ -406,7 +447,7 @@ begin
   with InnerCadastrados[InnerAtual] do
   begin
   
-//    Retorno := PingOnLine(Numero);
+    Retorno := PingOnLine(Numero);
 
     try
     
@@ -442,6 +483,8 @@ procedure TFrmPrincipal.Pooling;
 var
   Inner, Origem, Complemento, Dia, Mes, Ano, Hora, Minuto, Segundo : Byte; 
   Cartao : array[0..10] of Char;
+  CartaoRecebido : string;
+  count : Byte;
   tempo : TDateTime;
 begin
 
@@ -456,9 +499,27 @@ begin
 
       if ( Retorno = RET_OK ) then
       begin
-      
-        EstadoAtual := ESTADO_TRATA_CARTAO_TRATA_CONFIGS;
-      
+
+//        EstadoAtual := ESTADO_TRATA_CARTAO_TRATA_CONFIGS;
+
+          for Count := 0 to Length( Cartao ) do
+          begin
+
+            if( Cartao[Count] = #0 ) then
+            begin
+
+              Break;
+
+            end;
+
+            CartaoRecebido := CartaoRecebido + Cartao[Count];
+
+          end;
+
+          ShowMessage('Estado de pooling OK');
+          HabilitarLadoCatraca('Entrada');
+          EstadoAtual := ESTADO_LIBERAR_CATRACA;
+
       end
       else
       begin
@@ -479,8 +540,54 @@ begin
     
     except
 
+      EstadoAtual := ESTADO_CONECTAR;
+
     end;
   
+  end;
+
+end;
+
+procedure TFrmPrincipal.ConectaBanco;
+begin
+
+  with ScnBanco do
+  begin
+
+    try
+
+      Close;
+      ConnectionName := 'FBConnection';
+      LibraryName := 'dbxfb.dll';
+      GetDriverFunc := 'getSQLDriverINTERBASE';
+      DriverName := 'Firebird';
+      VendorLib := 'fbclient.dll';
+      Params.Values['DriverName'] := 'Firebird';
+      Params.Values['DataBase'] := 'C:\SOLIDUS\DADOS\GESTAO.FDB';
+      Params.Values['RoleName'] := '';
+      Params.Values['User_Name'] := 'sysdba';
+      Params.Values['Password'] := 'masterkey';
+      Params.Values['ServerCharSet'] := '';
+      Params.Values['SQLDialect'] := '3';
+      Params.Values['ErrorResourceFile'] := '';
+      Params.Values['LocaleCode'] := '0000';
+      Params.Values['BlobSize'] := '-1';
+      Params.Values['CommitRetain'] := 'False';
+      Params.Values['WaitOnLocks'] := 'True';
+      Params.Values['InterBase TransIsolation'] := 'ReadCommited';
+      Params.Values['Trim Char'] := 'False';
+      Open;
+
+      ShowMessage('Conectado');
+
+    except
+
+      on Erro:Exception do
+        raise Exception.Create('Erro ao conectar ao banco de dados: ' + Erro.Message);
+
+    end;
+
+
   end;
 
 end;
@@ -502,6 +609,7 @@ begin
       repeat
 
         //Tenta efetuar uma conexão com o Inner, tenta retornar a data atual
+        ShowMessage('Passo de conexão OK');
         Retorno := TestaConexaoInner(Numero);
         Sleep(20);
         Inc(Count);
@@ -579,7 +687,7 @@ begin
     
     end;
 
-    Result := StrToInt(BinarioParaDecimal(Configuracao));
+    ConfigurarEntradaMudancasOnline := StrToInt( BinarioParaDecimal( Configuracao ) );
 
   end;
 
@@ -597,15 +705,19 @@ begin
 
     try
 
-//      ValorDecimal := ConfigurarEntradaMudancasOnline(InnerAtual);
+      ValorDecimal := ConfigurarEntradaMudancasOnline(InnerAtual);
 
       Retorno := EnviarFormasEntradasOnLine(Numero, QtdDigitos, 1, ValorDecimal, 15, 17);
 
       if ( Retorno = RET_OK ) then
       begin
+
+        ShowMessage('Passo de enviar configurações online OK');
+
         TempoInicialPingOnLine := Now;
         CountTentativasEnvioComando := 0;
-        EstadoAtual := ESTADO_POLLING;  
+        EstadoAtual := ESTADO_POLLING;
+
       end
       else
       begin
@@ -701,6 +813,7 @@ begin
 
         lblStatus.Caption := 'Configurações enviadas';
         EstadoAtual := ESTADO_ENVIAR_DATA_HORA;
+        CountTentativasEnvioComando := 0;
 
       end
       else
@@ -710,6 +823,7 @@ begin
           EstadoAtual := ESTADO_RECONECTAR;
 
         inc(CountTentativasEnvioComando);
+
       end;
     Except
       EstadoAtual := ESTADO_CONECTAR;
@@ -723,6 +837,7 @@ procedure TFrmPrincipal.EnviarDataHora;
 var
   Dia, Mes, Ano, Hora, Minuto, Segundo : Integer;
 begin
+
   lblStatus.Caption := 'Enviando data e hora';
 
   with InnerCadastrados[InnerAtual] do
@@ -742,8 +857,10 @@ begin
       if( retorno = RET_OK ) then
       begin
 
-        ShowMessage('Data e hora atualizados!');
+        ShowMessage('Enviado Novo Relógio OK');
+
         EstadoAtual := ESTADO_ENVIAR_MSG_PADRAO;
+        CountTentativasEnvioComando := 0;
 
       end
       else
