@@ -5,7 +5,8 @@ uses
   UFrmPrincipal in 'gui\UFrmPrincipal.pas' {FrmPrincipal},
   UFuncoes in 'utilidades\UFuncoes.pas',
   UConstantes in 'utilidades\UConstantes.pas',
-  UFrmConfiguracoes in 'gui\UFrmConfiguracoes.pas' {FrmConfiguracoes};
+  UFrmConfiguracoes in 'gui\UFrmConfiguracoes.pas' {FrmConfiguracoes},
+  Bilhete in 'objetos\Bilhete.pas';
 
 {$R *.res}
 
