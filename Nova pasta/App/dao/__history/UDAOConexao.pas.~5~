@@ -1,0 +1,19 @@
+unit UDAOConexao;
+
+interface
+
+uses
+  ADODB;
+
+type
+
+  TDAOConexao = class
+
+  public
+    class function ConectarBase() : TADOConnection;
+
+  end;
+
+implementation
+
+end.

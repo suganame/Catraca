@@ -1,0 +1,120 @@
+object FrmPrincipal: TFrmPrincipal
+  Left = 0
+  Top = 0
+  Caption = 'Menu Principal'
+  ClientHeight = 311
+  ClientWidth = 643
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  Menu = MenuPrincipal
+  OldCreateOrder = False
+  OnCreate = FormCreate
+  DesignSize = (
+    643
+    311)
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Button1: TButton
+    Left = 328
+    Top = 184
+    Width = 75
+    Height = 25
+    Caption = 'Iniciar'
+    TabOrder = 0
+    OnClick = Button1Click
+  end
+  object Button2: TButton
+    Left = 432
+    Top = 184
+    Width = 75
+    Height = 25
+    Caption = 'Parar'
+    TabOrder = 1
+    OnClick = Button2Click
+  end
+  object Button3: TButton
+    Left = 328
+    Top = 232
+    Width = 137
+    Height = 25
+    Caption = 'Habilitar Catraca'
+    TabOrder = 2
+  end
+  object Button4: TButton
+    Left = 432
+    Top = 88
+    Width = 145
+    Height = 25
+    Caption = 'Conectar com o banco'
+    TabOrder = 3
+    OnClick = Button4Click
+  end
+  object Button5: TButton
+    Left = 496
+    Top = 135
+    Width = 99
+    Height = 25
+    Caption = 'Executar select'
+    TabOrder = 4
+    OnClick = Button5Click
+  end
+  object PnStatusCatraca: TPanel
+    Left = 0
+    Top = 0
+    Width = 641
+    Height = 41
+    Anchors = [akLeft, akTop, akRight]
+    Color = clActiveCaption
+    ParentBackground = False
+    TabOrder = 5
+    ExplicitWidth = 643
+    object LblStatus: TLabel
+      Left = 380
+      Top = 2
+      Width = 186
+      Height = 35
+      Caption = 'N'#227'o conectado'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWhite
+      Font.Height = -27
+      Font.Name = 'Trebuchet MS'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+  end
+  object MenuPrincipal: TMainMenu
+    Left = 48
+    Top = 120
+    object MenuItemTelaPrincipal: TMenuItem
+      Caption = 'Catraca'
+      OnClick = MenuItemTelaPrincipalClick
+    end
+    object MenuItemConfiguracoes: TMenuItem
+      Caption = 'Configurar'
+      OnClick = MenuItemConfiguracoesClick
+    end
+    object TMenuItem
+    end
+  end
+  object QryPrincipal: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = ScnBanco
+    Left = 88
+    Top = 184
+  end
+  object ScnBanco: TSQLConnection
+    Left = 32
+    Top = 184
+  end
+  object TmrStatusCatraca: TTimer
+    Interval = 300
+    OnTimer = TmrStatusCatracaTimer
+    Left = 32
+    Top = 48
+  end
+end

@@ -54,3 +54,5 @@ App_/__history/Catraca.dpr.~1~
 *.res
 *.~6~
 App/gui/__history/UFrmPrincipal.dfm.~4~
+TESTE.FDB
+*.FDB

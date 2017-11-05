@@ -1,0 +1,302 @@
+unit UFrmConfiguracoes;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, IniFiles, IWSystem;
+
+type
+  TFrmConfiguracoes = class(TForm)
+    GbxBancoDeDados: TGroupBox;
+    LblCaminhoBancoDeDados: TLabel;
+    BtnSalvar: TSpeedButton;
+    BtnCancelar: TSpeedButton;
+    GbxCatraca: TGroupBox;
+    GbConexao: TGroupBox;
+    LblNumInner: TLabel;
+    LblPorta: TLabel;
+    EdtNumInner: TEdit;
+    EdtPorta: TEdit;
+    GbCartao: TGroupBox;
+    LblPadraoCartao: TLabel;
+    LblQtdDigitoCartao: TLabel;
+    EdtQtdDigitosCartao: TEdit;
+    CbxPadraoCartao: TComboBox;
+    GbxLocalizacaoCatraca: TGroupBox;
+    RdbLadoEsquerdo: TRadioButton;
+    RdbLadoDireito: TRadioButton;
+    GroupBox1: TGroupBox;
+    RdbTecladoHabilitado: TRadioButton;
+    RdbTecladoDesabilitado: TRadioButton;
+    procedure BtnSalvarClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure BtnCancelarClick(Sender: TObject);
+  private
+    { Private declarations }
+
+    function VerificaValores : Boolean;
+
+    procedure GravaIni();
+    procedure CarregaIni();
+    procedure LeIni;
+
+  public
+    { Public declarations }
+  end;
+
+var
+  FrmConfiguracoes: TFrmConfiguracoes;
+  ArqIni : TIniFile;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmConfiguracoes.BtnCancelarClick(Sender: TObject);
+begin
+
+  if ( VerificaValores() ) then
+  begin
+
+    FrmConfiguracoes.Close;
+
+  end
+  else
+  begin
+
+    case MessageBox(Application.Handle,'Alterações não salvas, deseja salvar?','Sucesso', MB_YESNO + MB_ICONQUESTION,['Sim', 'Não'] ) of
+
+      IDYES:
+        showmessage('Opções salvas');
+
+      IDNO:
+        ShowMessage('Opções canceladas');
+
+
+    end;
+
+  end;
+
+end;
+
+procedure TFrmConfiguracoes.BtnSalvarClick(Sender: TObject);
+begin
+
+  if( FileExists( gsAppPath + 'ini.ini' ) ) then
+  begin
+
+    FileDelete( gsAppPath + 'ini.ini' );
+    GravaIni();
+
+  end
+  else
+  begin
+
+    GravaIni();
+
+  end;
+
+end;
+
+procedure TFrmConfiguracoes.CarregaIni;
+var
+  retInteiro : Integer;
+  retBoolean : Boolean;
+begin
+
+  retInteiro := 0;
+  retBoolean := False;
+
+  with ArqIni do
+  begin
+
+    EdtNumInner.Text := IntToStr( ReadInteger('Catraca', 'Numero',  retInteiro) );
+    EdtPorta.Text :=  IntToStr( ReadInteger('Catraca', 'Porta',  retInteiro) );
+    CbxPadraoCartao.ItemIndex := ReadInteger('Catraca', 'PadraoCartao',  retInteiro);
+    EdtQtdDigitosCartao.Text :=  IntToStr( ReadInteger('Catraca', 'QtdDigitos',  retInteiro) );
+
+    if ( ReadInteger('Catraca', 'LadoDaCatraca',  retInteiro) = 0 ) then
+    begin
+
+      RdbLadoEsquerdo.Checked := True;
+
+    end
+    else if ( ReadInteger('Catraca', 'LadoDaCatraca',  retInteiro) = 1 ) then
+    begin
+
+       RdbLadoDireito.Checked := True;
+
+    end;
+
+    if ( ReadBool('Catraca', 'Teclado',  retBoolean) = True ) then
+    begin
+
+      RdbTecladoHabilitado.Checked := True;
+
+    end
+    else if ( ReadBool('Catraca', 'Teclado',  retBoolean) = False ) then
+    begin
+
+      RdbTecladoDesabilitado.Checked := True;
+
+    end;
+
+  end;
+
+end;
+
+procedure TFrmConfiguracoes.FormCreate(Sender: TObject);
+begin
+
+  ArqIni := TIniFile.Create( gsAppPath + 'ini.ini' );
+
+  if ( FileExists( gsAppPath + 'ini.ini' ) ) then
+  begin
+
+    CarregaIni();
+
+  end;
+
+
+end;
+
+procedure TFrmConfiguracoes.GravaIni;
+begin
+  try
+    with ArqIni do
+    begin
+
+      WriteInteger('Catraca', 'Numero', StrToInt( EdtNumInner.Text ) );
+      WriteInteger('Catraca', 'Porta', StrToInt( EdtPorta.Text ) );
+      WriteInteger('Catraca', 'PadraoCartao', CbxPadraoCartao.ItemIndex);
+      WriteInteger('Catraca', 'QtdDigitos', StrToInt( EdtQtdDigitosCartao.Text ) );
+
+      if ( RdbLadoEsquerdo.Checked ) then
+        WriteInteger('Catraca', 'LadoDaCatraca', 0)
+      else if ( RdbLadoDireito.Checked ) then
+        WriteInteger('Catraca', 'LadoDaCatraca', 1);
+
+      if ( RdbTecladoHabilitado.Checked ) then
+        WriteBool('Catraca', 'Teclado', True)
+      else if ( RdbTecladoDesabilitado.Checked ) then
+        WriteBool('Catraca', 'Teclado', False);
+
+    end;
+
+    if( MessageBox(Application.Handle,'Informações salvas com sucesso!','Sucesso', MB_OK + MB_ICONINFORMATION) = IDOK) then
+    begin
+
+      FrmConfiguracoes.Close;
+
+    end;
+
+
+  except
+
+    if( ( EdtNumInner.Text = '') or
+        ( EdtPorta.Text = '' ) or
+        ( EdtQtdDigitosCartao.Text = '' ) ) then
+    begin
+
+      MessageBox(Application.Handle,'Campos obrigatórios em branco.','Erro', MB_OK + MB_ICONERROR);
+
+      if ( EdtNumInner.Text = '' ) then
+        EdtNumInner.SetFocus
+      else if EdtPorta.Text = '' then
+        EdtPorta.SetFocus
+      else if EdtQtdDigitosCartao.Text = '' then
+        EdtQtdDigitosCartao.SetFocus;
+
+    end
+    else
+    begin
+
+      MessageBox(Application.Handle,'Erro ao gravar aquivo INI, verifique se o mesmo já está aberto.','Erro', MB_OK + MB_ICONERROR);
+
+    end;
+
+  end;
+
+end;
+
+procedure TFrmConfiguracoes.LeIni;
+begin
+
+
+end;
+
+function TFrmConfiguracoes.VerificaValores: Boolean;
+var
+  Numero, Porta, QtdDigitos, PadraoCartao, LadoCatraca : Integer;
+  ValAtualNumero, ValAtualPorta, ValAtualQtdDigitos, ValAtualPadraoCartao, ValAtualLadoCatraca : Integer;
+
+  TecladoHabilitado : Boolean;
+  ValAtualTecladoHabilitado : Boolean;
+
+  RetInteiro : Integer;
+  RetBoolean : Boolean;
+begin
+
+  RetInteiro := 0;
+  RetBoolean := False;
+
+  try
+
+    with ArqIni do
+    begin
+
+      Numero := ReadInteger('Catraca', 'Numero',  retInteiro);
+      Porta :=  ReadInteger('Catraca', 'Porta',  retInteiro);
+      PadraoCartao := ReadInteger('Catraca', 'PadraoCartao',  retInteiro);
+      QtdDigitos :=  ReadInteger('Catraca', 'QtdDigitos',  retInteiro);
+      LadoCatraca := ReadInteger('Catraca', 'LadoDaCatraca',  retInteiro);
+      TecladoHabilitado := ReadBool('Catraca', 'Teclado',  retBoolean);
+
+    end;
+
+    ValAtualNumero := StrToInt( EdtNumInner.Text );
+    ValAtualPorta := StrToInt( EdtPorta.Text );
+    ValAtualPadraoCartao := CbxPadraoCartao.ItemIndex;
+    ValAtualQtdDigitos := StrToInt( EdtQtdDigitosCartao.Text );
+
+    if ( RdbLadoEsquerdo.Checked ) then
+      ValAtualLadoCatraca := 0
+    else if ( RdbLadoDireito.Checked ) then
+      ValAtualLadoCatraca := 1;
+
+    if ( RdbTecladoHabilitado.Checked ) then
+      ValAtualTecladoHabilitado := True
+    else if ( RdbTecladoDesabilitado.Checked ) then
+      ValAtualTecladoHabilitado := False;
+
+
+    if( Numero <> ValAtualNumero ) then
+      VerificaValores := False
+
+    else if( Porta <> ValAtualPorta ) then
+      VerificaValores := False
+
+    else if ( PadraoCartao <> ValAtualPadraoCartao ) then
+      VerificaValores := False
+
+    else if ( QtdDigitos <> ValAtualQtdDigitos ) then
+      VerificaValores := False
+
+    else if ( LadoCatraca <> ValAtualLadoCatraca ) then
+      VerificaValores := False
+
+    else if ( TecladoHabilitado <> ValAtualTecladoHabilitado ) then
+      VerificaValores := False
+
+    else
+      VerificaValores := True;
+
+  except
+
+  end;
+
+
+end;
+
+end.

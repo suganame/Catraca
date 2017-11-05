@@ -1,0 +1,91 @@
+unit UConstantes;
+
+interface
+
+  // CONSTANTES DE RETORNO
+  const RET_OK = 0;
+  const RET_ERRO = 1;
+  const RET_PORTA_NAO_ABERTA = 2;
+  const RET_PORTA_JA_ABERTA = 3;
+  const RET_DLL_INNER2K_NAO_ENCONTRADA = 4;
+  const RET_DLL_INNERTCP_NAO_ENCONTRADA = 5;
+  const RET_DLL_INNERTCPLIB_NAO_ENCONTRADA = 6;
+  const RET_FUNCAO_NAO_SUPORTADA_PARA_TIPO_DE_CONEXAO = 7;
+  const RET_ERRO_GPF = 8;
+  const RET_CONEXAO_INVALIDA = 9;
+  const RET_DLL_INNER_NAO_ENCONTRADA = 10;
+
+  // CONSTANTES DE PARAMETRO DE MODO DO INNER
+  const MODO_OFFLINE = 0;
+  const MODO_ONLINE = 1;
+
+  // ENUMERADORES ESTADOS INNER
+  Type enumEstadosInner = (
+     ESTADO_CONECTAR,
+     ESTADO_ENVIAR_CFG_OFFLINE,
+     ESTADO_COLETAR_BILHETES,
+     ESTADO_ENVIAR_CFG_ONLINE,
+     ESTADO_ENVIAR_DATA_HORA,
+     ESTADO_ENVIAR_MSG_PADRAO,
+     ESTADO_CONFIGURAR_ENTRADAS_ONLINE,
+     ESTADO_POLLING,
+     ESTADO_LIBERAR_CATRACA,
+     ESTADO_ENVIAR_BIPCURTO,
+     ESTADO_MONITORA_GIRO_CATRACA,
+     PING_ONLINE,
+     ESTADO_RECONECTAR,
+     AGUARDA_TEMPO_MENSAGEM,
+     ESTADO_DEFINICAO_TECLADO,
+     ESTADO_AGUARDAR_DEFINICAO_TECLADO,
+     ESTADO_ENVIA_MSG_URNA,
+     ESTADO_MONITORA_URNA,
+     ESTADO_ENVIAR_MENSAGEM,
+     ESTADO_ENVIAR_HORARIOS,
+     ESTADO_ENVIAR_CONFIGS_ONLINE_OFFLINE,
+     ESTADO_ENVIAR_MSG_ACESSO_NEGADO,
+     ESTADO_TRATA_CARTAO_TRATA_CONFIGS,
+     ESTADO_VALIDAR_ACESSO,
+     ESTADO_VERIFICAR_SENHA,
+     ESTADO_ENVIAR_CONFIGMUD_ONLINE_OFFLINE
+
+  );
+
+  type inner = Record
+    Numero                      : Integer;
+    PadraoCartao                : Integer;
+    CountTentativasEnvioComando : Integer;
+    TempoInicialPingOnLine      : TDateTime;
+    EstadoAtual                 : enumEstadosInner;
+//    EstadoTeclado               : enumEstadosTeclado;
+    CountRepeatPingOnline       : Integer;
+    Verificacao                 : Integer;
+    Identificacao               : Integer;
+    DoisLeitores                : Boolean;
+    CountPingFail               : Integer;
+    TempoColeta                 : Integer;
+    Catraca                     : Boolean;
+    Biometrico                  : Boolean;
+    QtdDigitos                  : Integer;
+    CntDoEvents                 : Integer;
+    TipoLeitor                  : Integer;
+    ValorLeitor1                : Integer;
+    ValorLeitor2                : Integer;
+    Teclado                     : Boolean;
+    Temporizador                : TDateTime;
+    EstadoSolicitacaoPingOnLine : enumEstadosInner;
+    TempoInicialMensagem        : TDateTime;
+    ListaBio                    : Boolean;
+    Lista                       : Boolean;
+    InnerNetAcesso              : Boolean;
+    QtdeBilhetes                : Integer;
+    TempoInicialConectar        : TDateTime;
+    ValidaSenha                 : Boolean;
+    EcoarAsterisco              : Boolean;
+    BilheteInner                : Tbilhete;
+  End;
+
+
+
+implementation
+
+end.
