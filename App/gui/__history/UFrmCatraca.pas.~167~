@@ -33,6 +33,7 @@ type
     Button6: TButton;
     Button7: TButton;
     Button8: TButton;
+    Button9: TButton;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
@@ -45,6 +46,7 @@ type
     procedure Button6Click(Sender: TObject);
     procedure Button7Click(Sender: TObject);
     procedure Button8Click(Sender: TObject);
+    procedure Button9Click(Sender: TObject);
   private
     { Private declarations }
 
@@ -260,11 +262,25 @@ var
 begin
 //#5CB85C
 
-  color := TColor($5CB85C);
+  color := TColor($CA8B42);
+
+//  #428BCA
 
   Panel2.Color := color;
   Label3.Caption := 'Bem vindo!';
   Label4.Caption := 'Aproveite o dia, bom divertimento!';
+
+end;
+
+procedure TFrmCatraca.Button9Click(Sender: TObject);
+var
+  color : TColor;
+begin
+
+  color := TColor($CA8B41);
+  Panel2.Color := color;
+  Label3.Caption := 'Aguardando entrada';
+  Label4.Caption := 'Passe o cartão ou digite o código.';
 
 end;
 
@@ -585,7 +601,12 @@ begin
 end;
 
 procedure TFrmCatraca.FormActivate(Sender: TObject);
+var
+  color : TColor;
 begin
+
+  color := TColor($CDCDCD);
+  Panel1.Color := color;
 
   Delay := 0;
   TmrDelay.Enabled := True;

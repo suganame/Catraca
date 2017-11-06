@@ -5,7 +5,7 @@ object FrmCatraca: TFrmCatraca
   BorderIcons = []
   BorderStyle = bsNone
   ClientHeight = 600
-  ClientWidth = 1024
+  ClientWidth = 796
   Color = clWhite
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,62 +19,6 @@ object FrmCatraca: TFrmCatraca
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
-    Left = 360
-    Top = 207
-    Width = 80
-    Height = 33
-    Caption = 'Nome:'
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -27
-    Font.Name = 'Corbel'
-    Font.Style = [fsBold]
-    ParentFont = False
-    Visible = False
-  end
-  object Label2: TLabel
-    Left = 360
-    Top = 305
-    Width = 119
-    Height = 35
-    Caption = 'Cart'#227'o n'#186':'
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -27
-    Font.Name = 'Corbel'
-    Font.Style = [fsBold]
-    ParentFont = False
-    Visible = False
-  end
-  object Label5: TLabel
-    Left = 664
-    Top = 416
-    Width = 212
-    Height = 33
-    Caption = 'Parcelas vencidas:'
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -27
-    Font.Name = 'Corbel'
-    Font.Style = [fsBold]
-    ParentFont = False
-    Visible = False
-  end
-  object Label6: TLabel
-    Left = 360
-    Top = 416
-    Width = 181
-    Height = 33
-    Caption = 'Tipo de pessoa:'
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -27
-    Font.Name = 'Corbel'
-    Font.Style = [fsBold]
-    ParentFont = False
-    Visible = False
-  end
   object Button1: TButton
     Left = 18
     Top = 519
@@ -127,14 +71,13 @@ object FrmCatraca: TFrmCatraca
   object PnStatusCatraca: TPanel
     Left = 0
     Top = 559
-    Width = 1024
+    Width = 796
     Height = 41
     Align = alBottom
     Color = clRed
     ParentBackground = False
     TabOrder = 5
     Visible = False
-    ExplicitWidth = 796
     object LblStatus: TLabel
       Left = 380
       Top = 2
@@ -152,13 +95,12 @@ object FrmCatraca: TFrmCatraca
   object Panel2: TPanel
     Left = 0
     Top = 0
-    Width = 1024
+    Width = 796
     Height = 150
     Align = alTop
     Color = clPurple
     ParentBackground = False
     TabOrder = 6
-    ExplicitWidth = 796
     object Label3: TLabel
       Left = 47
       Top = 24
@@ -190,7 +132,7 @@ object FrmCatraca: TFrmCatraca
   end
   object Button6: TButton
     Left = 281
-    Top = 528
+    Top = 488
     Width = 75
     Height = 25
     Caption = 'Erro'
@@ -199,7 +141,7 @@ object FrmCatraca: TFrmCatraca
   end
   object Button7: TButton
     Left = 380
-    Top = 528
+    Top = 488
     Width = 75
     Height = 25
     Caption = 'Parcela atrasada'
@@ -208,7 +150,7 @@ object FrmCatraca: TFrmCatraca
   end
   object Button8: TButton
     Left = 477
-    Top = 528
+    Top = 488
     Width = 75
     Height = 25
     Caption = 'liberado'
@@ -217,7 +159,7 @@ object FrmCatraca: TFrmCatraca
   end
   object Button9: TButton
     Left = 574
-    Top = 528
+    Top = 488
     Width = 75
     Height = 25
     Caption = 'Button9'
@@ -226,14 +168,13 @@ object FrmCatraca: TFrmCatraca
   end
   object Panel1: TPanel
     Left = 24
-    Top = 207
+    Top = 183
     Width = 280
     Height = 280
     Caption = 'Panel1'
     Color = clPurple
     ParentBackground = False
     TabOrder = 11
-    Visible = False
     object Panel3: TPanel
       Left = 3
       Top = 3
@@ -799,69 +740,55 @@ object FrmCatraca: TFrmCatraca
       end
     end
   end
-  object Edit1: TEdit
-    Left = 360
-    Top = 240
-    Width = 409
-    Height = 31
-    BorderStyle = bsNone
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clGray
-    Font.Height = -27
-    Font.Name = 'Franklin Gothic Book'
-    Font.Style = []
-    ParentFont = False
+  object Panel4: TPanel
+    Left = 344
+    Top = 183
+    Width = 444
+    Height = 280
+    Caption = 'Panel4'
+    Color = clSilver
+    ParentBackground = False
     TabOrder = 12
-    Text = 'Guilherme Suganame'
-    Visible = False
-  end
-  object Edit2: TEdit
-    Left = 360
-    Top = 339
-    Width = 409
-    Height = 33
-    BorderStyle = bsNone
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clGray
-    Font.Height = -27
-    Font.Name = 'Franklin Gothic Book'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 13
-    Text = '0000000018'
-    Visible = False
-  end
-  object Edit3: TEdit
-    Left = 664
-    Top = 456
-    Width = 49
-    Height = 33
-    BorderStyle = bsNone
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clGray
-    Font.Height = -27
-    Font.Name = 'Franklin Gothic Book'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 14
-    Text = '1'
-    Visible = False
-  end
-  object Edit4: TEdit
-    Left = 360
-    Top = 456
-    Width = 206
-    Height = 31
-    BorderStyle = bsNone
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clGray
-    Font.Height = -27
-    Font.Name = 'Franklin Gothic Book'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 15
-    Text = 'Titular'
-    Visible = False
+    object Label1: TLabel
+      Left = 24
+      Top = 15
+      Width = 68
+      Height = 29
+      Caption = 'Nome:'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -24
+      Font.Name = 'Corbel'
+      Font.Style = []
+      ParentFont = False
+      Visible = False
+    end
+    object Label2: TLabel
+      Left = 368
+      Top = 144
+      Width = 57
+      Height = 13
+      Caption = 'N'#186' Do T'#237'tulo'
+      Visible = False
+    end
+    object Edit1: TEdit
+      Left = 24
+      Top = 50
+      Width = 409
+      Height = 31
+      BorderStyle = bsNone
+      TabOrder = 0
+      Visible = False
+    end
+    object Edit2: TEdit
+      Left = 267
+      Top = 137
+      Width = 193
+      Height = 31
+      BorderStyle = bsNone
+      TabOrder = 1
+      Visible = False
+    end
   end
   object QryPrincipal: TSQLQuery
     MaxBlobSize = -1

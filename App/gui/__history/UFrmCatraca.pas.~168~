@@ -33,6 +33,7 @@ type
     Button6: TButton;
     Button7: TButton;
     Button8: TButton;
+    Button9: TButton;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
@@ -45,6 +46,7 @@ type
     procedure Button6Click(Sender: TObject);
     procedure Button7Click(Sender: TObject);
     procedure Button8Click(Sender: TObject);
+    procedure Button9Click(Sender: TObject);
   private
     { Private declarations }
 
@@ -224,9 +226,22 @@ begin
 end;
 
 procedure TFrmCatraca.Button6Click(Sender: TObject);
+var
+  cor : TColor;
+
 begin
 
-  Panel2.Color := clRed;
+  {lembrando que temos o código #0A2B3C, ele ficará do modo abaixo
+quando colocarmos o indicador '$' na frente dos dígitos}
+//cor := TColor($3C2B0A);
+
+//  cor := TColor(#e8493e);
+//                         #D9534F
+
+//#E55F6A
+  cor := TColor($6A5FE5);
+
+  Panel2.Color := cor;
   Label3.Caption := 'Acesso negado!';
   Label4.Caption := 'Verique com a secretaria o motivo. Obrigado!';
 
@@ -242,11 +257,30 @@ begin
 end;
 
 procedure TFrmCatraca.Button8Click(Sender: TObject);
+var
+  color : TColor;
+begin
+//#5CB85C
+
+  color := TColor($5CB85C);
+
+  Panel2.Color := color;
+  Label3.Caption := 'Bem vindo!';
+  Label4.Caption := 'Aproveite o dia, bom divertimento!';
+
+end;
+
+procedure TFrmCatraca.Button9Click(Sender: TObject);
+var
+  color : TColor;
 begin
 
-  Panel2.Color := clGreen;
-  Label3.Caption := 'Bem vindo!';
-  Label4.Caption := 'Bom divertimento!';
+//  #428BCA
+
+  color := TColor($CA8B42);
+  Panel2.Color := color;
+  Label3.Caption := 'Aguardando entrada';
+  Label4.Caption := 'Passe o cartão ou digite o código.';
 
 end;
 
@@ -567,7 +601,12 @@ begin
 end;
 
 procedure TFrmCatraca.FormActivate(Sender: TObject);
+var
+  color : TColor;
 begin
+
+  color := TColor($CDCDCD);
+  Panel1.Color := color;
 
   Delay := 0;
   TmrDelay.Enabled := True;

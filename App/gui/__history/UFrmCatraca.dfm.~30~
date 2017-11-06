@@ -5,7 +5,7 @@ object FrmCatraca: TFrmCatraca
   BorderIcons = []
   BorderStyle = bsNone
   ClientHeight = 600
-  ClientWidth = 1024
+  ClientWidth = 796
   Color = clWhite
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,64 +20,24 @@ object FrmCatraca: TFrmCatraca
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 360
-    Top = 207
-    Width = 80
-    Height = 33
-    Caption = 'Nome:'
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -27
-    Font.Name = 'Corbel'
-    Font.Style = [fsBold]
-    ParentFont = False
+    Left = 352
+    Top = 175
+    Width = 27
+    Height = 13
+    Caption = 'Nome'
     Visible = False
   end
   object Label2: TLabel
-    Left = 360
-    Top = 305
-    Width = 119
-    Height = 35
-    Caption = 'Cart'#227'o n'#186':'
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -27
-    Font.Name = 'Corbel'
-    Font.Style = [fsBold]
-    ParentFont = False
-    Visible = False
-  end
-  object Label5: TLabel
-    Left = 664
-    Top = 416
-    Width = 212
-    Height = 33
-    Caption = 'Parcelas vencidas:'
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -27
-    Font.Name = 'Corbel'
-    Font.Style = [fsBold]
-    ParentFont = False
-    Visible = False
-  end
-  object Label6: TLabel
-    Left = 360
-    Top = 416
-    Width = 181
-    Height = 33
-    Caption = 'Tipo de pessoa:'
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -27
-    Font.Name = 'Corbel'
-    Font.Style = [fsBold]
-    ParentFont = False
+    Left = 352
+    Top = 240
+    Width = 57
+    Height = 13
+    Caption = 'N'#186' Do T'#237'tulo'
     Visible = False
   end
   object Button1: TButton
-    Left = 18
-    Top = 519
+    Left = 486
+    Top = 355
     Width = 75
     Height = 25
     Caption = 'Iniciar'
@@ -86,8 +46,8 @@ object FrmCatraca: TFrmCatraca
     OnClick = Button1Click
   end
   object Button2: TButton
-    Left = 106
-    Top = 519
+    Left = 574
+    Top = 355
     Width = 75
     Height = 25
     Caption = 'Parar'
@@ -96,8 +56,8 @@ object FrmCatraca: TFrmCatraca
     OnClick = Button2Click
   end
   object Button3: TButton
-    Left = 187
-    Top = 519
+    Left = 655
+    Top = 355
     Width = 137
     Height = 25
     Caption = 'Habilitar Catraca'
@@ -105,8 +65,8 @@ object FrmCatraca: TFrmCatraca
     Visible = False
   end
   object Button4: TButton
-    Left = 18
-    Top = 488
+    Left = 486
+    Top = 324
     Width = 145
     Height = 25
     Caption = 'Conectar com o banco'
@@ -115,8 +75,8 @@ object FrmCatraca: TFrmCatraca
     OnClick = Button4Click
   end
   object Button5: TButton
-    Left = 169
-    Top = 488
+    Left = 637
+    Top = 324
     Width = 99
     Height = 25
     Caption = 'Executar select'
@@ -127,14 +87,13 @@ object FrmCatraca: TFrmCatraca
   object PnStatusCatraca: TPanel
     Left = 0
     Top = 559
-    Width = 1024
+    Width = 796
     Height = 41
     Align = alBottom
     Color = clRed
     ParentBackground = False
     TabOrder = 5
     Visible = False
-    ExplicitWidth = 796
     object LblStatus: TLabel
       Left = 380
       Top = 2
@@ -149,16 +108,33 @@ object FrmCatraca: TFrmCatraca
       ParentFont = False
     end
   end
+  object Edit1: TEdit
+    Left = 352
+    Top = 194
+    Width = 473
+    Height = 31
+    BorderStyle = bsNone
+    TabOrder = 6
+    Visible = False
+  end
+  object Edit2: TEdit
+    Left = 352
+    Top = 275
+    Width = 193
+    Height = 31
+    BorderStyle = bsNone
+    TabOrder = 7
+    Visible = False
+  end
   object Panel2: TPanel
     Left = 0
     Top = 0
-    Width = 1024
+    Width = 796
     Height = 150
     Align = alTop
     Color = clPurple
     ParentBackground = False
-    TabOrder = 6
-    ExplicitWidth = 796
+    TabOrder = 8
     object Label3: TLabel
       Left = 47
       Top = 24
@@ -190,61 +166,60 @@ object FrmCatraca: TFrmCatraca
   end
   object Button6: TButton
     Left = 281
-    Top = 528
+    Top = 488
     Width = 75
     Height = 25
     Caption = 'Erro'
-    TabOrder = 7
+    TabOrder = 9
     OnClick = Button6Click
   end
   object Button7: TButton
     Left = 380
-    Top = 528
+    Top = 488
     Width = 75
     Height = 25
     Caption = 'Parcela atrasada'
-    TabOrder = 8
+    TabOrder = 10
     OnClick = Button7Click
   end
   object Button8: TButton
     Left = 477
-    Top = 528
+    Top = 488
     Width = 75
     Height = 25
     Caption = 'liberado'
-    TabOrder = 9
+    TabOrder = 11
     OnClick = Button8Click
   end
   object Button9: TButton
     Left = 574
-    Top = 528
+    Top = 488
     Width = 75
     Height = 25
     Caption = 'Button9'
-    TabOrder = 10
+    TabOrder = 12
     OnClick = Button9Click
   end
   object Panel1: TPanel
     Left = 24
-    Top = 207
+    Top = 183
     Width = 280
     Height = 280
     Caption = 'Panel1'
     Color = clPurple
     ParentBackground = False
-    TabOrder = 11
-    Visible = False
+    TabOrder = 13
     object Panel3: TPanel
-      Left = 3
-      Top = 3
-      Width = 275
-      Height = 275
+      Left = 5
+      Top = 5
+      Width = 272
+      Height = 272
       Color = clWhite
       ParentBackground = False
       TabOrder = 0
       object Image1: TImage
         Left = 20
-        Top = 20
+        Top = 22
         Width = 232
         Height = 230
         Picture.Data = {
@@ -799,80 +774,16 @@ object FrmCatraca: TFrmCatraca
       end
     end
   end
-  object Edit1: TEdit
-    Left = 360
-    Top = 240
-    Width = 409
-    Height = 31
-    BorderStyle = bsNone
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clGray
-    Font.Height = -27
-    Font.Name = 'Franklin Gothic Book'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 12
-    Text = 'Guilherme Suganame'
-    Visible = False
-  end
-  object Edit2: TEdit
-    Left = 360
-    Top = 339
-    Width = 409
-    Height = 33
-    BorderStyle = bsNone
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clGray
-    Font.Height = -27
-    Font.Name = 'Franklin Gothic Book'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 13
-    Text = '0000000018'
-    Visible = False
-  end
-  object Edit3: TEdit
-    Left = 664
-    Top = 456
-    Width = 49
-    Height = 33
-    BorderStyle = bsNone
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clGray
-    Font.Height = -27
-    Font.Name = 'Franklin Gothic Book'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 14
-    Text = '1'
-    Visible = False
-  end
-  object Edit4: TEdit
-    Left = 360
-    Top = 456
-    Width = 206
-    Height = 31
-    BorderStyle = bsNone
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clGray
-    Font.Height = -27
-    Font.Name = 'Franklin Gothic Book'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 15
-    Text = 'Titular'
-    Visible = False
-  end
   object QryPrincipal: TSQLQuery
     MaxBlobSize = -1
     Params = <>
     SQLConnection = ScnBanco
-    Left = 640
-    Top = 528
+    Left = 648
+    Top = 416
   end
   object ScnBanco: TSQLConnection
-    Left = 696
-    Top = 528
+    Left = 704
+    Top = 416
   end
   object TmrStatusCatraca: TTimer
     Interval = 300

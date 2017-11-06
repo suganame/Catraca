@@ -24,15 +24,17 @@ type
     Edit1: TEdit;
     Label2: TLabel;
     Edit2: TEdit;
-    Panel1: TPanel;
     Panel2: TPanel;
     Label3: TLabel;
     Label4: TLabel;
-    Image1: TImage;
     TmrDelay: TTimer;
     Button6: TButton;
     Button7: TButton;
     Button8: TButton;
+    Button9: TButton;
+    Panel1: TPanel;
+    Panel3: TPanel;
+    Image1: TImage;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
@@ -45,6 +47,7 @@ type
     procedure Button6Click(Sender: TObject);
     procedure Button7Click(Sender: TObject);
     procedure Button8Click(Sender: TObject);
+    procedure Button9Click(Sender: TObject);
   private
     { Private declarations }
 
@@ -265,6 +268,20 @@ begin
   Panel2.Color := color;
   Label3.Caption := 'Bem vindo!';
   Label4.Caption := 'Aproveite o dia, bom divertimento!';
+
+end;
+
+procedure TFrmCatraca.Button9Click(Sender: TObject);
+var
+  color : TColor;
+begin
+
+//  #428BCA
+
+  color := TColor($CA8B42);
+  Panel2.Color := color;
+  Label3.Caption := 'Aguardando entrada';
+  Label4.Caption := 'Passe o cartão ou digite o código.';
 
 end;
 
@@ -590,6 +607,7 @@ var
 begin
 
   color := TColor($CDCDCD);
+  Panel1.Color := color;
 
   Delay := 0;
   TmrDelay.Enabled := True;

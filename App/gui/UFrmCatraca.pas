@@ -20,19 +20,25 @@ type
     PnStatusCatraca: TPanel;
     LblStatus: TLabel;
     TmrStatusCatraca: TTimer;
-    Label1: TLabel;
-    Edit1: TEdit;
-    Label2: TLabel;
-    Edit2: TEdit;
-    Panel1: TPanel;
     Panel2: TPanel;
     Label3: TLabel;
     Label4: TLabel;
-    Image1: TImage;
     TmrDelay: TTimer;
     Button6: TButton;
     Button7: TButton;
     Button8: TButton;
+    Button9: TButton;
+    Panel1: TPanel;
+    Panel3: TPanel;
+    Image1: TImage;
+    Label1: TLabel;
+    Edit1: TEdit;
+    Label2: TLabel;
+    Edit2: TEdit;
+    Label5: TLabel;
+    Edit3: TEdit;
+    Label6: TLabel;
+    Edit4: TEdit;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
@@ -45,6 +51,7 @@ type
     procedure Button6Click(Sender: TObject);
     procedure Button7Click(Sender: TObject);
     procedure Button8Click(Sender: TObject);
+    procedure Button9Click(Sender: TObject);
   private
     { Private declarations }
 
@@ -240,6 +247,7 @@ quando colocarmos o indicador '$' na frente dos dígitos}
   cor := TColor($6A5FE5);
 
   Panel2.Color := cor;
+  Panel1.Color := cor;
   Label3.Caption := 'Acesso negado!';
   Label4.Caption := 'Verique com a secretaria o motivo. Obrigado!';
 
@@ -249,6 +257,7 @@ procedure TFrmCatraca.Button7Click(Sender: TObject);
 begin
 
   Panel2.Color := clPurple;
+  Panel1.Color := clPurple;
   Label3.Caption := 'Bem vindo!';
   Label4.Caption := 'Há parcelas atrasadas, verifique com a secretaria. Bom divertimento!';
 
@@ -263,8 +272,22 @@ begin
   color := TColor($5CB85C);
 
   Panel2.Color := color;
+  Panel1.Color := color;
   Label3.Caption := 'Bem vindo!';
   Label4.Caption := 'Aproveite o dia, bom divertimento!';
+
+end;
+
+procedure TFrmCatraca.Button9Click(Sender: TObject);
+var
+  color : TColor;
+begin
+
+  color := TColor($CA8B42);
+  Panel2.Color := color;
+  Panel1.Color := Color;
+  Label3.Caption := 'Aguardando entrada';
+  Label4.Caption := 'Passe o cartão ou digite o código.';
 
 end;
 
@@ -591,6 +614,8 @@ begin
 
   color := TColor($CDCDCD);
   Panel1.Color := color;
+  panel1.Color := clPurple;
+//  panel4.Color := clWhite;
 
   Delay := 0;
   TmrDelay.Enabled := True;
