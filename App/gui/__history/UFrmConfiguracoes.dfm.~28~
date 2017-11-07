@@ -2,8 +2,8 @@ object FrmConfiguracoes: TFrmConfiguracoes
   Left = 0
   Top = 0
   Caption = 'Configura'#231#245'es'
-  ClientHeight = 573
-  ClientWidth = 804
+  ClientHeight = 456
+  ClientWidth = 798
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,17 +11,16 @@ object FrmConfiguracoes: TFrmConfiguracoes
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
-  Position = poDesktopCenter
-  OnClose = FormClose
+  Position = poScreenCenter
   OnCreate = FormCreate
   DesignSize = (
-    804
-    573)
+    798
+    456)
   PixelsPerInch = 96
   TextHeight = 13
   object BtnSalvar: TSpeedButton
-    Left = 698
-    Top = 528
+    Left = 692
+    Top = 411
     Width = 98
     Height = 37
     Anchors = [akRight, akBottom]
@@ -65,7 +64,7 @@ object FrmConfiguracoes: TFrmConfiguracoes
   end
   object BtnCancelar: TSpeedButton
     Left = 8
-    Top = 528
+    Top = 411
     Width = 89
     Height = 37
     Anchors = [akLeft, akBottom]
@@ -104,12 +103,11 @@ object FrmConfiguracoes: TFrmConfiguracoes
       D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DA}
     ParentFont = False
     OnClick = BtnCancelarClick
-    ExplicitTop = 411
   end
   object GbxBancoDeDados: TGroupBox
     Left = 8
     Top = 263
-    Width = 788
+    Width = 782
     Height = 74
     Anchors = [akLeft, akTop, akRight]
     Caption = 'Banco de dados'
@@ -120,7 +118,10 @@ object FrmConfiguracoes: TFrmConfiguracoes
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    ExplicitWidth = 782
+    ExplicitWidth = 778
+    DesignSize = (
+      782
+      74)
     object LblCaminhoBancoDeDados: TLabel
       Left = 12
       Top = 32
@@ -128,12 +129,47 @@ object FrmConfiguracoes: TFrmConfiguracoes
       Height = 18
       Caption = 'Caminho do banco:'
     end
-    object EdtCaminhoBanco: TEdit
-      Left = 130
-      Top = 29
-      Width = 639
-      Height = 26
-      TabOrder = 0
+    object SpeedButton1: TSpeedButton
+      Left = 652
+      Top = 26
+      Width = 97
+      Height = 37
+      Anchors = [akRight, akBottom]
+      Caption = 'Procurar'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Trebuchet MS'
+      Font.Style = []
+      Glyph.Data = {
+        36030000424D3603000000000000360000002800000010000000100000000100
+        18000000000000030000120B0000120B00000000000000000000D3D3DAD3D3DA
+        D3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3
+        DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3
+        D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAB1CDE8
+        81B6E43F92DB348CD9348CD9348CD9348CD9348CD9348CD9348CD9348CD9348B
+        D9398FDA94BEE6D3D3DAD3D3DA489ADDDEF1FAA8DDF49EDBF496DAF38ED8F386
+        D7F37FD4F279D3F272D2F16CD0F169CFF1C2EAF84095DBD3D3DAD3D3DA3B97DB
+        EFFAFEA1E9F991E5F881E1F772DEF663DAF554D7F447D3F339D0F22ECDF126CB
+        F0CAF2FB3B97DBD3D3DAD3D3DA3C9DDBF2FAFDB3EDFAA4E9F995E6F885E2F776
+        DEF665DBF557D7F449D4F33BD1F230CEF1CCF2FB3B9BDBD3D3DAD3D3DA3BA3DB
+        F6FCFEC8F2FCB9EFFBACECFA9CE8F98BE3F77CE0F66CDCF65DD9F54FD6F444D3
+        F3D0F3FC3BA2DBD3D3DAD3D3DA3BA8DBFEFFFFF8FDFFF6FDFFF5FCFFF3FCFED8
+        F6FC94E6F885E3F776DFF668DBF55CD8F4D7F4FC3BA7DBD3D3DAD3D3DA39ADDB
+        E8F6FB94D4EF88CEEE73C1E9C9E9F6F2FCFEF3FCFEF2FCFEF0FCFEEFFBFEEEFB
+        FEFEFFFF3CAEDBD3D3DAD3D3DA41AEDCF1FAFD94DEF593DCF481D5F26ACAED6C
+        CBEA85D3EF80D2EF7AD0EF76CFEE72CFEEE9F7FB3FB2DCD3D3DAD3D3DA42B4DC
+        F7FCFE8EE4F891DEF59FE0F5ACE1F6EFFBFEF4FDFEF3FCFEF1FCFEEFFBFEEEFB
+        FEFAFDFF5BBDE0D3D3DAD3D3DA3CB5DBFDFEFEFEFFFFFEFEFFFDFEFFFEFFFFEA
+        F7FB6EC8E56FC9E46FC9E46FC9E47DCFE784D0E8C5DDE8D3D3DAD3D3DA5EC2E0
+        61C3E263C4E363C4E363C4E362C4E359C0E0D7D9E0D6D7DED6D7DED6D7DED6D7
+        DED6D7DED4D4DBD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3
+        D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DA
+        D3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3
+        DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3
+        D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DAD3D3DA}
+      ParentFont = False
+      ExplicitLeft = 648
     end
   end
   object GbxCatraca: TGroupBox
@@ -328,41 +364,23 @@ object FrmConfiguracoes: TFrmConfiguracoes
     end
   end
   object Button1: TButton
-    Left = 684
-    Top = 207
+    Left = 680
+    Top = 199
     Width = 106
     Height = 34
     Caption = 'Testar Conex'#227'o'
     TabOrder = 2
   end
-  object GbImagens: TGroupBox
-    Left = 8
-    Top = 367
-    Width = 788
-    Height = 74
-    Anchors = [akLeft, akTop, akRight]
-    Caption = 'Imagens'
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'Trebuchet MS'
-    Font.Style = []
-    ParentFont = False
+  object Edit1: TEdit
+    Left = 138
+    Top = 297
+    Width = 479
+    Height = 21
     TabOrder = 3
-    ExplicitWidth = 782
-    object Label1: TLabel
-      Left = 12
-      Top = 32
-      Width = 205
-      Height = 18
-      Caption = 'Caminho das fotos dos associados:'
-    end
-    object EdtCaminhoFotosAssociados: TEdit
-      Left = 223
-      Top = 29
-      Width = 546
-      Height = 26
-      TabOrder = 0
-    end
+  end
+  object OpenDialog1: TOpenDialog
+    Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
+    Left = 720
+    Top = 352
   end
 end

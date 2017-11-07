@@ -877,7 +877,6 @@ object FrmCatraca: TFrmCatraca
     Height = 25
     Caption = 'Button10'
     TabOrder = 17
-    OnClick = Button11Click
   end
   object QryPrincipal: TSQLQuery
     MaxBlobSize = -1

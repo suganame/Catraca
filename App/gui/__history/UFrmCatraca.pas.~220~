@@ -53,9 +53,8 @@ type
     procedure Button6Click(Sender: TObject);
     procedure Button7Click(Sender: TObject);
     procedure Button8Click(Sender: TObject);
-    procedure Button11Click(Sender: TObject);
-    procedure Button10Click(Sender: TObject);
     procedure Button9Click(Sender: TObject);
+    procedure Button11Click(Sender: TObject);
   private
     { Private declarations }
 
@@ -132,17 +131,10 @@ begin
   
 end;
 
-procedure TFrmCatraca.Button10Click(Sender: TObject);
-begin
-
-  SetStatusCatraca(5);
-
-end;
-
 procedure TFrmCatraca.Button11Click(Sender: TObject);
 begin
 
-  SetStatusCatraca(6);
+  SetStatusCatraca(5);
 
 end;
 
@@ -361,12 +353,10 @@ begin
 
 end;
 
-
-
-procedure TFrmCatraca.Button9Click(Sender: TObject);
+procedure TFrmCatraca.Button10Click(Sender: TObject);
 begin
 
-  SetStatusCatraca(3);
+  SetStatusCatraca(5);
 
 end;
 

@@ -866,18 +866,18 @@ object FrmCatraca: TFrmCatraca
     Top = 156
     Width = 75
     Height = 25
-    Caption = 'Button10'
+    Caption = 'Button9'
     TabOrder = 16
-    OnClick = Button10Click
+    OnClick = Button9Click
   end
   object Button11: TButton
     Left = 766
     Top = 156
     Width = 75
     Height = 25
-    Caption = 'Button10'
+    Caption = 'Button9'
     TabOrder = 17
-    OnClick = Button11Click
+    OnClick = Button9Click
   end
   object QryPrincipal: TSQLQuery
     MaxBlobSize = -1

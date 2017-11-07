@@ -38,7 +38,6 @@ type
     procedure FormCreate(Sender: TObject);
     procedure BtnCancelarClick(Sender: TObject);
     procedure BtnSalvarClick(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
 
@@ -156,16 +155,6 @@ begin
 
 end;
 
-procedure TFrmConfiguracoes.FormClose(Sender: TObject;
-  var Action: TCloseAction);
-begin
-
-  Action := caFree;
-  Release;
-  FrmConfiguracoes := nil;
-
-end;
-
 procedure TFrmConfiguracoes.FormCreate(Sender: TObject);
 begin
 
@@ -258,8 +247,8 @@ var
   TecladoHabilitado : Boolean;
   ValAtualTecladoHabilitado : Boolean;
 
-  CaminhoBanco, CaminhoFotosAssociados : String;
-  ValAtualCaminhoBanco, ValAtualCaminhoFotosAssociados : String;
+  CaminhoBanco, CaminhoImagensAssociados : String;
+  ValAtualCaminhoBanco, ValAtualCaminhoImagensAssociados : String;
 
   RetInteiro : Integer;
   RetBoolean : Boolean;
@@ -282,7 +271,7 @@ begin
       LadoCatraca := ReadInteger('Catraca', 'LadoDaCatraca',  retInteiro);
       TecladoHabilitado := ReadBool('Catraca', 'Teclado',  retBoolean);
       CaminhoBanco := ReadString('Banco', 'CaminhoBanco', retString);
-      CaminhoFotosAssociados := ReadString('Imagens', 'CaminhoFotosAssociados', retString);
+      CaminhoImagensAssociados := ReadString('Banco', 'CaminhoBanco', retString);
 
     end;
 
@@ -290,8 +279,6 @@ begin
     ValAtualPorta := StrToInt( EdtPorta.Text );
     ValAtualPadraoCartao := CbxPadraoCartao.ItemIndex;
     ValAtualQtdDigitos := StrToInt( EdtQtdDigitosCartao.Text );
-    ValAtualCaminhoBanco := EdtCaminhoBanco.Text;
-    ValAtualCaminhoFotosAssociados := EdtCaminhoFotosAssociados.Text;
 
     if ( RdbLadoEsquerdo.Checked ) then
       ValAtualLadoCatraca := 0
@@ -320,12 +307,6 @@ begin
       VerificaValores := False
 
     else if ( TecladoHabilitado <> ValAtualTecladoHabilitado ) then
-      VerificaValores := False
-
-    else if ( CaminhoBanco <> ValAtualCaminhoBanco ) then
-      VerificaValores := False
-
-    else if ( CaminhoFotosAssociados <> ValAtualCaminhoFotosAssociados ) then
       VerificaValores := False
 
     else

@@ -220,7 +220,6 @@ object FrmCatraca: TFrmCatraca
     Height = 25
     Caption = 'Button9'
     TabOrder = 10
-    OnClick = Button9Click
   end
   object PnBordaImagem: TPanel
     Left = 24

@@ -12,6 +12,8 @@ type
     MenuPrincipal: TMainMenu;
     MenuItemTelaPrincipal: TMenuItem;
     MenuItemConfiguracoes: TMenuItem;
+    OpenDialog1: TOpenDialog;
+    Button1: TButton;
     procedure TmrStatusCatracaTimer(Sender: TObject);
     procedure MenuItemTelaPrincipalClick(Sender: TObject);
     procedure MenuItemConfiguracoesClick(Sender: TObject);
@@ -61,7 +63,7 @@ begin
                        '',
                        'Select your project file',
                        'C:\',
-                       False)
+                       False);
   then
     // Display this full file/path value
     ShowMessage('Selected file = '+selectedFile)
@@ -106,7 +108,7 @@ end;
 procedure TFrmPrincipal.MenuItemConfiguracoesClick(Sender: TObject);
 begin
 
-  Application.CreateForm(TFrmConfiguracoes, FrmConfiguracoes);
+//  Application.CreateForm(TFrmConfiguracoes, FrmConfiguracoes);
   FrmConfiguracoes.Show;
 
 end;

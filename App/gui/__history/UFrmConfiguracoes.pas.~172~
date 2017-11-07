@@ -38,7 +38,6 @@ type
     procedure FormCreate(Sender: TObject);
     procedure BtnCancelarClick(Sender: TObject);
     procedure BtnSalvarClick(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
 
@@ -153,16 +152,6 @@ begin
     EdtCaminhoFotosAssociados.Text := ReadString('Imagens', 'CaminhoFotosAssociados', retString);
 
   end;
-
-end;
-
-procedure TFrmConfiguracoes.FormClose(Sender: TObject;
-  var Action: TCloseAction);
-begin
-
-  Action := caFree;
-  Release;
-  FrmConfiguracoes := nil;
 
 end;
 
@@ -290,8 +279,6 @@ begin
     ValAtualPorta := StrToInt( EdtPorta.Text );
     ValAtualPadraoCartao := CbxPadraoCartao.ItemIndex;
     ValAtualQtdDigitos := StrToInt( EdtQtdDigitosCartao.Text );
-    ValAtualCaminhoBanco := EdtCaminhoBanco.Text;
-    ValAtualCaminhoFotosAssociados := EdtCaminhoFotosAssociados.Text;
 
     if ( RdbLadoEsquerdo.Checked ) then
       ValAtualLadoCatraca := 0
@@ -320,12 +307,6 @@ begin
       VerificaValores := False
 
     else if ( TecladoHabilitado <> ValAtualTecladoHabilitado ) then
-      VerificaValores := False
-
-    else if ( CaminhoBanco <> ValAtualCaminhoBanco ) then
-      VerificaValores := False
-
-    else if ( CaminhoFotosAssociados <> ValAtualCaminhoFotosAssociados ) then
       VerificaValores := False
 
     else

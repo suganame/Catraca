@@ -3,7 +3,7 @@ object FrmConfiguracoes: TFrmConfiguracoes
   Top = 0
   Caption = 'Configura'#231#245'es'
   ClientHeight = 573
-  ClientWidth = 804
+  ClientWidth = 798
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,16 +11,15 @@ object FrmConfiguracoes: TFrmConfiguracoes
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
-  Position = poDesktopCenter
-  OnClose = FormClose
+  Position = poDefault
   OnCreate = FormCreate
   DesignSize = (
-    804
+    798
     573)
   PixelsPerInch = 96
   TextHeight = 13
   object BtnSalvar: TSpeedButton
-    Left = 698
+    Left = 692
     Top = 528
     Width = 98
     Height = 37
@@ -109,7 +108,7 @@ object FrmConfiguracoes: TFrmConfiguracoes
   object GbxBancoDeDados: TGroupBox
     Left = 8
     Top = 263
-    Width = 788
+    Width = 782
     Height = 74
     Anchors = [akLeft, akTop, akRight]
     Caption = 'Banco de dados'
@@ -120,7 +119,6 @@ object FrmConfiguracoes: TFrmConfiguracoes
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    ExplicitWidth = 782
     object LblCaminhoBancoDeDados: TLabel
       Left = 12
       Top = 32
@@ -328,8 +326,8 @@ object FrmConfiguracoes: TFrmConfiguracoes
     end
   end
   object Button1: TButton
-    Left = 684
-    Top = 207
+    Left = 680
+    Top = 199
     Width = 106
     Height = 34
     Caption = 'Testar Conex'#227'o'
@@ -338,7 +336,7 @@ object FrmConfiguracoes: TFrmConfiguracoes
   object GbImagens: TGroupBox
     Left = 8
     Top = 367
-    Width = 788
+    Width = 782
     Height = 74
     Anchors = [akLeft, akTop, akRight]
     Caption = 'Imagens'
@@ -349,7 +347,6 @@ object FrmConfiguracoes: TFrmConfiguracoes
     Font.Style = []
     ParentFont = False
     TabOrder = 3
-    ExplicitWidth = 782
     object Label1: TLabel
       Left = 12
       Top = 32
