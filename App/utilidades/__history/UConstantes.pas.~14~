@@ -2,7 +2,9 @@ unit UConstantes;
 
 interface
 
-// CONSTANTES DE RETORNO
+uses Bilhete;
+
+  // CONSTANTES DE RETORNO
   const RET_OK = 0;
   const RET_ERRO = 1;
   const RET_PORTA_NAO_ABERTA = 2;
@@ -15,8 +17,11 @@ interface
   const RET_CONEXAO_INVALIDA = 9;
   const RET_DLL_INNER_NAO_ENCONTRADA = 10;
 
-  // ENUMERADORES ESTADOS INNER
+  // CONSTANTES DE PARAMETRO DE MODO DO INNER
+  const MODO_OFFLINE = 0;
+  const MODO_ONLINE = 1;
 
+  // ENUMERADORES ESTADOS INNER
   Type enumEstadosInner = (
      ESTADO_CONECTAR,
      ESTADO_ENVIAR_CFG_OFFLINE,
@@ -40,7 +45,6 @@ interface
      ESTADO_ENVIAR_HORARIOS,
      ESTADO_ENVIAR_CONFIGS_ONLINE_OFFLINE,
      ESTADO_ENVIAR_MSG_ACESSO_NEGADO,
-     //Funcao VSenha: Declaracao da constante para inserir na M. de Estados
      ESTADO_TRATA_CARTAO_TRATA_CONFIGS,
      ESTADO_VALIDAR_ACESSO,
      ESTADO_VERIFICAR_SENHA,
@@ -49,6 +53,7 @@ interface
   );
 
   type inner = Record
+    Numero                      : Integer;
     PadraoCartao                : Integer;
     CountTentativasEnvioComando : Integer;
     TempoInicialPingOnLine      : TDateTime;
@@ -59,7 +64,6 @@ interface
     Identificacao               : Integer;
     DoisLeitores                : Boolean;
     CountPingFail               : Integer;
-    Numero                      : Integer;
     TempoColeta                 : Integer;
     Catraca                     : Boolean;
     Biometrico                  : Boolean;
@@ -70,7 +74,7 @@ interface
     ValorLeitor2                : Integer;
     Teclado                     : Boolean;
     Temporizador                : TDateTime;
-//    EstadoSolicitacaoPingOnLine : enumEstadosInner;
+    EstadoSolicitacaoPingOnLine : enumEstadosInner;
     TempoInicialMensagem        : TDateTime;
     ListaBio                    : Boolean;
     Lista                       : Boolean;
@@ -79,7 +83,7 @@ interface
     TempoInicialConectar        : TDateTime;
     ValidaSenha                 : Boolean;
     EcoarAsterisco              : Boolean;
-//    BilheteInner                : Tbilhete;
+    BilheteInner                : TBilhete;
   End;
 
 

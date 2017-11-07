@@ -5,7 +5,7 @@ object FrmCatraca: TFrmCatraca
   BorderIcons = []
   BorderStyle = bsNone
   ClientHeight = 600
-  ClientWidth = 1024
+  ClientWidth = 1038
   Color = clWhite
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,6 +16,7 @@ object FrmCatraca: TFrmCatraca
   WindowState = wsMaximized
   OnActivate = FormActivate
   OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -127,13 +128,13 @@ object FrmCatraca: TFrmCatraca
   object PnStatusConexao: TPanel
     Left = 0
     Top = 559
-    Width = 1024
+    Width = 1038
     Height = 41
     Align = alBottom
     Color = clRed
     ParentBackground = False
     TabOrder = 5
-    Visible = False
+    ExplicitWidth = 1024
     object LblStatus: TLabel
       Left = 380
       Top = 2
@@ -151,12 +152,14 @@ object FrmCatraca: TFrmCatraca
   object PnStatusCatraca: TPanel
     Left = 0
     Top = 0
-    Width = 1024
+    Width = 1038
     Height = 150
     Align = alTop
     Color = clPurple
     ParentBackground = False
     TabOrder = 6
+    ExplicitLeft = -8
+    ExplicitWidth = 1024
     object LblTituloCatraca: TLabel
       Left = 47
       Top = 24
@@ -862,21 +865,22 @@ object FrmCatraca: TFrmCatraca
     Visible = False
   end
   object Button10: TButton
-    Left = 764
+    Left = 685
     Top = 156
     Width = 75
     Height = 25
-    Caption = 'Parcela atrasada'
+    Caption = 'Button10'
     TabOrder = 16
-    OnClick = Button7Click
+    OnClick = Button10Click
   end
   object Button11: TButton
-    Left = 687
+    Left = 766
     Top = 156
     Width = 75
     Height = 25
-    Caption = 'Button9'
+    Caption = 'Button10'
     TabOrder = 17
+    OnClick = Button11Click
   end
   object QryPrincipal: TSQLQuery
     MaxBlobSize = -1

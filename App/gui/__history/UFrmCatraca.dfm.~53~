@@ -5,7 +5,7 @@ object FrmCatraca: TFrmCatraca
   BorderIcons = []
   BorderStyle = bsNone
   ClientHeight = 600
-  ClientWidth = 1024
+  ClientWidth = 1038
   Color = clWhite
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,7 +19,7 @@ object FrmCatraca: TFrmCatraca
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
+  object LblNome: TLabel
     Left = 360
     Top = 207
     Width = 80
@@ -33,7 +33,7 @@ object FrmCatraca: TFrmCatraca
     ParentFont = False
     Visible = False
   end
-  object Label2: TLabel
+  object LblCartao: TLabel
     Left = 360
     Top = 305
     Width = 119
@@ -47,7 +47,7 @@ object FrmCatraca: TFrmCatraca
     ParentFont = False
     Visible = False
   end
-  object Label5: TLabel
+  object LblParcelasVencidas: TLabel
     Left = 664
     Top = 416
     Width = 212
@@ -61,7 +61,7 @@ object FrmCatraca: TFrmCatraca
     ParentFont = False
     Visible = False
   end
-  object Label6: TLabel
+  object LblTipoPessoa: TLabel
     Left = 360
     Top = 416
     Width = 181
@@ -127,13 +127,13 @@ object FrmCatraca: TFrmCatraca
   object PnStatusConexao: TPanel
     Left = 0
     Top = 559
-    Width = 1024
+    Width = 1038
     Height = 41
     Align = alBottom
     Color = clRed
     ParentBackground = False
     TabOrder = 5
-    Visible = False
+    ExplicitWidth = 1024
     object LblStatus: TLabel
       Left = 380
       Top = 2
@@ -151,12 +151,14 @@ object FrmCatraca: TFrmCatraca
   object PnStatusCatraca: TPanel
     Left = 0
     Top = 0
-    Width = 1024
+    Width = 1038
     Height = 150
     Align = alTop
     Color = clPurple
     ParentBackground = False
     TabOrder = 6
+    ExplicitLeft = -8
+    ExplicitWidth = 1024
     object LblTituloCatraca: TLabel
       Left = 47
       Top = 24
@@ -187,36 +189,40 @@ object FrmCatraca: TFrmCatraca
     end
   end
   object Button6: TButton
-    Left = 281
-    Top = 528
+    Left = 365
+    Top = 156
     Width = 75
     Height = 25
     Caption = 'Erro'
     TabOrder = 7
+    OnClick = Button6Click
   end
   object Button7: TButton
-    Left = 380
-    Top = 528
+    Left = 604
+    Top = 156
     Width = 75
     Height = 25
     Caption = 'Parcela atrasada'
     TabOrder = 8
+    OnClick = Button7Click
   end
   object Button8: TButton
-    Left = 477
-    Top = 528
+    Left = 446
+    Top = 156
     Width = 75
     Height = 25
     Caption = 'liberado'
     TabOrder = 9
+    OnClick = Button8Click
   end
   object Button9: TButton
-    Left = 574
-    Top = 528
+    Left = 527
+    Top = 156
     Width = 75
     Height = 25
     Caption = 'Button9'
     TabOrder = 10
+    OnClick = Button9Click
   end
   object PnBordaImagem: TPanel
     Left = 24
@@ -793,7 +799,7 @@ object FrmCatraca: TFrmCatraca
       end
     end
   end
-  object Edit1: TEdit
+  object EdtNome: TEdit
     Left = 360
     Top = 240
     Width = 409
@@ -809,7 +815,7 @@ object FrmCatraca: TFrmCatraca
     Text = 'Guilherme Suganame'
     Visible = False
   end
-  object Edit2: TEdit
+  object EdtCartao: TEdit
     Left = 360
     Top = 339
     Width = 409
@@ -825,7 +831,7 @@ object FrmCatraca: TFrmCatraca
     Text = '0000000018'
     Visible = False
   end
-  object Edit3: TEdit
+  object EdtParcelasVencidas: TEdit
     Left = 664
     Top = 456
     Width = 49
@@ -841,9 +847,9 @@ object FrmCatraca: TFrmCatraca
     Text = '1'
     Visible = False
   end
-  object Edit4: TEdit
+  object EdtTipoPessoa: TEdit
     Left = 360
-    Top = 456
+    Top = 455
     Width = 206
     Height = 31
     BorderStyle = bsNone
@@ -856,6 +862,24 @@ object FrmCatraca: TFrmCatraca
     TabOrder = 15
     Text = 'Titular'
     Visible = False
+  end
+  object Button10: TButton
+    Left = 685
+    Top = 156
+    Width = 75
+    Height = 25
+    Caption = 'Button10'
+    TabOrder = 16
+    OnClick = Button10Click
+  end
+  object Button11: TButton
+    Left = 766
+    Top = 156
+    Width = 75
+    Height = 25
+    Caption = 'Button10'
+    TabOrder = 17
+    OnClick = Button11Click
   end
   object QryPrincipal: TSQLQuery
     MaxBlobSize = -1

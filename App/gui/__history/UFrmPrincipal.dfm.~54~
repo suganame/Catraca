@@ -21,6 +21,7 @@ object FrmPrincipal: TFrmPrincipal
     Width = 121
     Height = 21
     TabOrder = 0
+    Text = 'Edit1'
   end
   object Button1: TButton
     Left = 359

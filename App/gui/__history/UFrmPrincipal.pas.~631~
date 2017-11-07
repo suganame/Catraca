@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, IWSystem, IniFiles,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Filectrl,  IWSystem, IniFiles,
   UConstantes, UFuncoes, Vcl.Menus, UFrmCatraca, UFrmConfiguracoes;
 
 type
@@ -12,7 +12,7 @@ type
     MenuPrincipal: TMainMenu;
     MenuItemTelaPrincipal: TMenuItem;
     MenuItemConfiguracoes: TMenuItem;
-    OpenDialog1: TOpenDialog;
+    Edit1: TEdit;
     Button1: TButton;
     procedure TmrStatusCatracaTimer(Sender: TObject);
     procedure MenuItemTelaPrincipalClick(Sender: TObject);
@@ -54,10 +54,20 @@ begin
 end;
 
 procedure TFrmPrincipal.Button1Click(Sender: TObject);
+var
+  Dir: String;
+  SELDIRHELP : Integer;
 begin
+  SELDIRHELP := 1000;
+  Dir := 'C:\';
+//  if SelectDirectory(
+//    'Selecione o local aonde serão gravados os arquivos de texto:', '', Dir,
+//    [sdNewUI, sdNewFolder]) then
+//    Edit1.Text := Dir;
 
-  OpenDialog1.Execute();
-
+    Dir := 'C:\Windows';
+ if SelectDirectory('Local', '', Dir, [sdNewUI, sdPerformCreate, sdPrompt],SELDIRHELP) then
+    Edit1.Text := Dir;
 end;
 
 procedure TFrmPrincipal.CarregarIni;
@@ -96,7 +106,7 @@ end;
 procedure TFrmPrincipal.MenuItemConfiguracoesClick(Sender: TObject);
 begin
 
-//  Application.CreateForm(TFrmConfiguracoes, FrmConfiguracoes);
+  Application.CreateForm(TFrmConfiguracoes, FrmConfiguracoes);
   FrmConfiguracoes.Show;
 
 end;

@@ -24,10 +24,6 @@ type
     LblTituloCatraca: TLabel;
     LblTextoCatraca: TLabel;
     TmrDelay: TTimer;
-    Button6: TButton;
-    Button7: TButton;
-    Button8: TButton;
-    Button9: TButton;
     PnBordaImagem: TPanel;
     PnFundoImagem: TPanel;
     ImgFotoAssociado: TImage;
@@ -39,6 +35,10 @@ type
     EdtParcelasVencidas: TEdit;
     LblTipoPessoa: TLabel;
     EdtTipoPessoa: TEdit;
+    Button6: TButton;
+    Button7: TButton;
+    Button8: TButton;
+    Button9: TButton;
     Button10: TButton;
     Button11: TButton;
     procedure Button1Click(Sender: TObject);
@@ -56,6 +56,7 @@ type
     procedure Button11Click(Sender: TObject);
     procedure Button10Click(Sender: TObject);
     procedure Button9Click(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
   private
     { Private declarations }
 
@@ -91,6 +92,7 @@ type
     procedure EnviarPingOnline();
     procedure TrataConfigsCartao();
     procedure LiberarCatraca();
+    procedure FecharConexao();
 
   public
     { Public declarations }
@@ -104,6 +106,7 @@ var
   Retorno : Byte;
   Parar, LiberaEntrada, LiberaEntradaInvertida, LiberaSaida, LiberaSaidaInvertida : Boolean;
   ArqIni : TIniFile;
+  CorAzul, CorVermelha, CorVerde, CorRoxa : TColor;
 
 implementation
 
@@ -218,8 +221,6 @@ begin
 end;
 
 procedure TFrmCatraca.SetStatusCatraca(Status: Integer);
-var
-  CorAzul, CorVermelha, CorVerde, CorRoxa : TColor;
 begin
   {
     1 - Aguardando conexão
@@ -228,12 +229,8 @@ begin
     4 - Acesso liberado, mas com atrasado
     5 - Acesso Negado
     6 - Usuário não cadastrado
+    7 - Saída liberada
   }
-
-  CorVermelha := TColor($6A5FE5);
-  CorRoxa := TColor(clPurple);
-  CorVerde := TColor($5CB85C);
-  CorAzul := TColor($CA8B42);
 
   case Status of
 
@@ -242,6 +239,7 @@ begin
 
         EsconderFormulario();
         PnStatusCatraca.Color := CorVermelha;
+        PnBordaImagem.Color := CorVermelha;
         LblTituloCatraca.Caption := 'Aguardando Conexão';
         LblTextoCatraca.Caption := 'Tentando conexão com a catraca.';
 
@@ -252,6 +250,7 @@ begin
 
         EsconderFormulario();
         PnStatusCatraca.Color := CorAzul;
+        PnBordaImagem.Color := CorAzul;
         LblTituloCatraca.Caption := 'Aguardando Entrada.';
         LblTextoCatraca.Caption := 'Passe o cartão ou digite o código.';
 
@@ -265,6 +264,7 @@ begin
         EdtParcelasVencidas.Visible := False;
 
         PnStatusCatraca.Color := CorVerde;
+        PnBordaImagem.Color := CorVerde;
         LblTituloCatraca.Caption := 'Acesso Liberado!';
         LblTextoCatraca.Caption := 'Seja bem vindo! Tenha uma ótima diversão.';
 
@@ -275,6 +275,7 @@ begin
 
         MostrarFormulario();
         PnStatusCatraca.Color := CorRoxa;
+        PnBordaImagem.Color := CorRoxa;
         LblTituloCatraca.Caption := 'Acesso Liberado!';
         LblTextoCatraca.Caption := 'Há parcelas atrasadas, verifique com a secretaria. Seja bem vindo!';
 
@@ -285,6 +286,7 @@ begin
 
         MostrarFormulario();
         PnStatusCatraca.Color := CorVermelha;
+        PnBordaImagem.Color := CorVermelha;
         LblTituloCatraca.Caption := 'Acesso Negado';
         LblTextoCatraca.Caption := 'Verique o motivo com a secretaria.';
 
@@ -295,8 +297,20 @@ begin
 
         EsconderFormulario();
         PnStatusCatraca.Color := CorVermelha;
+        PnBordaImagem.Color := CorVermelha;
         LblTituloCatraca.Caption := 'Acesso Negado';
         LblTextoCatraca.Caption := 'Usuário não cadastrado, verifique com a secretaria.';
+
+      end;
+
+    7:
+      begin
+
+        EsconderFormulario();
+        PnStatusCatraca.Color := CorVerde;
+        PnBordaImagem.Color := CorVerde;
+        LblTituloCatraca.Caption := 'Saída Liberada';
+        LblTextoCatraca.Caption := 'Volte sempre!';
 
       end;
 
@@ -636,8 +650,10 @@ begin
 //        ESTADO_ENVIAR_HORARIOS: ;
 //        ESTADO_ENVIAR_CONFIGS_ONLINE_OFFLINE: ;
 //        ESTADO_ENVIAR_MSG_ACESSO_NEGADO: ;
+
         ESTADO_TRATA_CARTAO_TRATA_CONFIGS: 
           TrataConfigsCartao();
+
 //        ESTADO_VALIDAR_ACESSO: ;
 //        ESTADO_VERIFICAR_SENHA: ;
 //        ESTADO_ENVIAR_CONFIGMUD_ONLINE_OFFLINE: ;
@@ -650,8 +666,6 @@ procedure TFrmCatraca.MostrarFormulario;
 begin
 
   PnBordaImagem.Visible := True;
-  PnFundoImagem.Visible := True;
-  ImgFotoAssociado.Visible := True;
 
   LblNome.Visible := True;
   EdtNome.Visible := True;
@@ -674,14 +688,14 @@ begin
 
   with InnerCadastrados[InnerAtual] do
   begin
-  
+
     Retorno := PingOnLine(Numero);
 
     try
-    
+
       if ( Retorno = RET_OK ) then
       begin
-    
+
         EstadoAtual := EstadoSolicitacaoPingOnline;
 
       end
@@ -696,13 +710,13 @@ begin
       end;
 
       TempoInicialPingOnLine := Now;
-    
+
     except
 
       EstadoAtual := ESTADO_CONECTAR;
-    
+
     end;
-    
+
   end;
 
 end;
@@ -711,8 +725,8 @@ procedure TFrmCatraca.EsconderFormulario;
 begin
 
   PnBordaImagem.Visible := False;
-  PnFundoImagem.Visible := False;
-  ImgFotoAssociado.Visible := False;
+//  PnFundoImagem.Visible := False;
+//  ImgFotoAssociado.Visible := False;
 
   LblNome.Visible := False;
   EdtNome.Visible := False;
@@ -725,6 +739,48 @@ begin
 
   LblParcelasVencidas.Visible := False;
   EdtParcelasVencidas.Visible := False;
+
+end;
+
+procedure TFrmCatraca.FecharConexao;
+begin
+
+  lblStatus.Caption := 'Fechando Conexão';
+
+  with InnerCadastrados[InnerAtual] do
+  begin
+
+    EstadoAtual := ESTADO_FECHAR_CONEXAO;
+
+    Retorno := PingOnLine(Numero);
+
+    try
+
+      if ( Retorno = RET_OK ) then
+      begin
+
+        EstadoAtual := EstadoSolicitacaoPingOnline;
+
+      end
+      else
+      begin
+
+        if( CountTentativasEnvioComando >= 3 ) then
+          EstadoAtual := ESTADO_RECONECTAR;
+
+        Inc( CountTentativasEnvioComando );
+
+      end;
+
+      TempoInicialPingOnLine := Now;
+
+    except
+
+      EstadoAtual := ESTADO_CONECTAR;
+
+    end;
+
+  end;
 
 end;
 
@@ -747,9 +803,25 @@ begin
 
 end;
 
+procedure TFrmCatraca.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+
+  Parar := True;
+  MaquinaDeEstados();
+
+  CanClose := True;
+
+end;
+
 procedure TFrmCatraca.FormCreate(Sender: TObject);
 begin
 
+  CorVermelha := TColor($2E31D3);
+  CorRoxa := TColor(clPurple);
+  CorVerde := TColor($5CB85C);
+  CorAzul := TColor($CA8B42);
+
+  PnStatusConexao.Color := CorVermelha;
   ArqIni := TIniFile.Create( gsAppPath + 'ini.ini' );
 
 end;
@@ -785,6 +857,7 @@ var
 begin
 
   lblStatus.Caption := 'Estado de polling';
+  PnStatusConexao.Visible := False;
 
   with InnerCadastrados[InnerAtual] do
   begin
@@ -896,6 +969,9 @@ begin
   Count := 0;
 
   LblStatus.Caption := 'Tentando conectar ao inner';
+  PnStatusConexao.Color := CorVermelha;
+  PnStatusConexao.Visible := True;
+  Application.ProcessMessages;
 
 
   with InnerCadastrados[InnerAtual] do
@@ -920,7 +996,7 @@ begin
         //Caso o retorno seja positivo, entra no estado de envio de configuração
 
         lblStatus.Caption := 'Conectado';
-        Parar := True;
+//        Parar := True;
         EstadoAtual := ESTADO_ENVIAR_CFG_ONLINE;
         Application.ProcessMessages;
 
@@ -1190,7 +1266,11 @@ end;
 
 procedure TFrmCatraca.Reconectar;
 begin
-  lblStatus.Caption := 'Tentando reconexao';
+
+  lblStatus.Caption := 'Tentando conectar ao inner';
+  PnStatusConexao.Color := CorVermelha;
+  PnStatusConexao.Visible := True;
+
   Application.ProcessMessages;
 
   // Estado de reconexão, fica tentando conectar até que consiga uma resposta
@@ -1206,7 +1286,7 @@ begin
       // Caso consiga uma conexão entra no estado de enviar configurações online
 
       lblStatus.Caption := 'Conectado';
-      Parar := True;
+//      Parar := True;
       Application.ProcessMessages;
       CountTentativasEnvioComando := 0;
 //      EstadoAtual := ESTADO_ENVIAR_CFG_ONLINE;

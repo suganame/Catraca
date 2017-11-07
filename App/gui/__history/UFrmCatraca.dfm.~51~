@@ -187,36 +187,40 @@ object FrmCatraca: TFrmCatraca
     end
   end
   object Button6: TButton
-    Left = 281
-    Top = 528
+    Left = 365
+    Top = 156
     Width = 75
     Height = 25
     Caption = 'Erro'
     TabOrder = 7
+    OnClick = Button6Click
   end
   object Button7: TButton
-    Left = 380
-    Top = 528
+    Left = 604
+    Top = 156
     Width = 75
     Height = 25
     Caption = 'Parcela atrasada'
     TabOrder = 8
+    OnClick = Button7Click
   end
   object Button8: TButton
-    Left = 477
-    Top = 528
+    Left = 446
+    Top = 156
     Width = 75
     Height = 25
     Caption = 'liberado'
     TabOrder = 9
+    OnClick = Button8Click
   end
   object Button9: TButton
-    Left = 574
-    Top = 528
+    Left = 527
+    Top = 156
     Width = 75
     Height = 25
     Caption = 'Button9'
     TabOrder = 10
+    OnClick = Button9Click
   end
   object PnBordaImagem: TPanel
     Left = 24
@@ -856,6 +860,24 @@ object FrmCatraca: TFrmCatraca
     TabOrder = 15
     Text = 'Titular'
     Visible = False
+  end
+  object Button10: TButton
+    Left = 685
+    Top = 156
+    Width = 75
+    Height = 25
+    Caption = 'Button10'
+    TabOrder = 16
+    OnClick = Button10Click
+  end
+  object Button11: TButton
+    Left = 766
+    Top = 156
+    Width = 75
+    Height = 25
+    Caption = 'Button10'
+    TabOrder = 17
+    OnClick = Button11Click
   end
   object QryPrincipal: TSQLQuery
     MaxBlobSize = -1

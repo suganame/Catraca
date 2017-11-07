@@ -5,13 +5,15 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, IWSystem, IniFiles,
-  UConstantes, UFuncoes, Vcl.Menus, UFrmCatraca, UFrmConfiguracoes;
+  Filectrl, UConstantes, UFuncoes, Vcl.Menus, UFrmCatraca, UFrmConfiguracoes;
 
 type
   TFrmPrincipal = class(TForm)
     MenuPrincipal: TMainMenu;
     MenuItemTelaPrincipal: TMenuItem;
     MenuItemConfiguracoes: TMenuItem;
+    Edit1: TEdit;
+    Button1: TButton;
     procedure TmrStatusCatracaTimer(Sender: TObject);
     procedure MenuItemTelaPrincipalClick(Sender: TObject);
     procedure MenuItemConfiguracoesClick(Sender: TObject);
@@ -53,21 +55,17 @@ end;
 
 procedure TFrmPrincipal.Button1Click(Sender: TObject);
 var
-  SelectedFile : String;
+  Dir: String;
 begin
+  Dir := '';
+  if SelectDirectory(
+    'Selecione o local aonde serão gravados os arquivos de texto:', '', Dir,
+    [sdNewUI, sdNewFolder]) then
+    Edit1.Text := Dir;
 
-  if promptforfilename(selectedFile,
-                       'Text files (*.txt)|*.txt',
-                       '',
-                       'Select your project file',
-                       'C:\',
-                       False)
-  then
-    // Display this full file/path value
-    ShowMessage('Selected file = '+selectedFile)
-  else
-    ShowMessage('Cancel pressed');
-
+//    Dir := 'C:\Windows';
+// if SelectDirectory(Dir, [sdAllowCreate, sdPerformCreate, sdPrompt], 1000) then
+//    Edit1.Text := Dir;
 end;
 
 procedure TFrmPrincipal.CarregarIni;
