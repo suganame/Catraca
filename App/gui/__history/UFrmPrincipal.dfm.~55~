@@ -1,7 +1,6 @@
 object FrmPrincipal: TFrmPrincipal
   Left = 0
   Top = 0
-  Anchors = [akLeft, akTop, akRight, akBottom]
   Caption = 'Catraca'
   ClientHeight = 390
   ClientWidth = 730
@@ -13,13 +12,28 @@ object FrmPrincipal: TFrmPrincipal
   Font.Style = []
   Menu = MenuPrincipal
   OldCreateOrder = False
-  Position = poScreenCenter
-  OnCreate = FormCreate
+  PopupMode = pmExplicit
   PixelsPerInch = 96
   TextHeight = 13
+  object Edit1: TEdit
+    Left = 232
+    Top = 104
+    Width = 121
+    Height = 21
+    TabOrder = 0
+  end
+  object Button1: TButton
+    Left = 359
+    Top = 102
+    Width = 75
+    Height = 25
+    Caption = 'Button1'
+    TabOrder = 1
+    OnClick = Button1Click
+  end
   object MenuPrincipal: TMainMenu
-    Left = 48
-    Top = 120
+    Left = 304
+    Top = 224
     object MenuItemTelaPrincipal: TMenuItem
       Caption = 'Catraca'
       OnClick = MenuItemTelaPrincipalClick

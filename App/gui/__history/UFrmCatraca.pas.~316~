@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, UConstantes, UFuncoes, UFrmConfiguracoes,
   Vcl.Menus, Data.DB, Data.SqlExpr, DBXFirebird, Data.FMTBcd, Vcl.ExtCtrls, IWSystem, IniFiles,
-  Vcl.Imaging.jpeg;
+  Vcl.Imaging.jpeg, Bilhete;
 
 type
   TFrmCatraca = class(TForm)
@@ -93,6 +93,7 @@ type
     procedure TrataConfigsCartao();
     procedure LiberarCatraca();
     procedure FecharConexao();
+    procedure MonitorarGiroCatraca();
 
   public
     { Public declarations }
@@ -400,7 +401,6 @@ begin
       if ( Retorno = RET_OK ) then
       begin
 
-//        ShowMessage('Mensagem enviada OK');
         EstadoAtual := ESTADO_CONFIGURAR_ENTRADAS_ONLINE;
         CountTentativasEnvioComando := 0;
       
@@ -543,8 +543,7 @@ begin
         CountPingFail := 0;
         CountTentativasEnvioComando := 0;
         TempoInicialPingOnLine := Now;
-//        EstadoAtual := ESTADO_MONITORA_GIRO_CATRACA;
-        EstadoAtual := ESTADO_ENVIAR_MSG_PADRAO;
+        EstadoAtual := ESTADO_MONITORA_GIRO_CATRACA;
 
       end
       else
@@ -632,10 +631,9 @@ begin
         
         ESTADO_LIBERAR_CATRACA: 
           LiberarCatraca();
-        
-        
-//        ESTADO_ENVIAR_BIPCURTO: ;
-//        ESTADO_MONITORA_GIRO_CATRACA: ;
+
+        ESTADO_ENVIAR_BIPCURTO:
+          MonitorarGiroCatraca();
 
         PING_ONLINE:
           EnviarPingOnline();
@@ -662,6 +660,104 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TFrmCatraca.MonitorarGiro;
+begin
+
+end;
+
+procedure TFrmCatraca.MonitorarGiroCatraca;
+var
+  Bilhete : TBilhete;
+  Cartao : array[0..10] of Char;
+  CartaoRecebido : string;
+  Tempo : TDateTime;
+begin
+
+  LblStatus.Caption := 'Monitorando Giro';
+  Application.ProcessMessages;
+
+  with InnerCadastrados[InnerAtual] do
+  begin
+
+    try
+
+      Bilhete := TBilhete.Create;
+      Bilhete.Origem := 0;
+      Bilhete.Complemento := 0;
+      Bilhete.Dia := 0;
+      Bilhete.Mes := 0;
+      Bilhete.Ano := 0;
+      Bilhete.Hora := 0;
+      Bilhete.Minuto := 0;
+      Bilhete.Segundo := 0;
+
+
+      Retorno := ReceberDadosOnLine(Numero, @Bilhete.Origem, @Bilhete.Complemento,
+                                    @Bilhete.Cartao, @Bilhete.Dia,
+                                    @Bilhete.Mes, @Bilhete.Ano,
+                                    @Bilhete.Hora, @Bilhete.Minuto, @Bilhete.Segundo);
+
+      if (Retorno = RET_OK) then
+      begin
+
+        if( Bilhete.Origem = 5 ) then
+        begin
+
+          ShowMessage('Não girou');
+
+        end
+        else if( Bilhete.Origem = 6 ) then
+        begin
+
+          if( Bilhete.Complemento = 1 ) then
+          begin
+
+            ShowMessage('Girou para entrada');
+
+          end
+          else
+          begin
+
+            ShowMessage('Girou para saída');
+
+          end;
+
+        end;
+
+        EstadoAtual := ESTADO_ENVIAR_MSG_PADRAO;
+
+      end
+      else
+      begin
+
+        Tempo := Now - TempoInicialPingOnLine;
+
+        if( StrToInt( FormatDateTime('ss', Tempo) ) >= 3 ) then
+        begin
+
+          EstadoSolicitacaoPingOnLine := EstadoAtual;
+          CountTentativasEnvioComando := 0;
+          TempoInicialPingOnLine := Now;
+          EstadoAtual := PING_ONLINE
+
+        end;
+
+      end;
+
+    Except
+
+      ShowMessage('Deu problema');
+
+      EstadoAtual := ESTADO_CONECTAR;
+
+    end;
+
+
+
+  end;
+
 end;
 
 procedure TFrmCatraca.MostrarFormulario;
@@ -852,9 +948,13 @@ end;
 
 procedure TFrmCatraca.Pooling;
 var
-  Inner, Origem, Complemento, Dia, Mes, Ano, Hora, Minuto, Segundo : Byte; 
-  Cartao : array[0..10] of Char;
+//  Inner, Origem, Complemento, Dia, Mes, Ano, Hora, Minuto, Segundo : Byte;
+//  Cartao : array[0..10] of Char;
+  sBilheteRecebido : string;
   CartaoRecebido : string;
+  strCartao : string;
+  sNumCartao : string;
+  tam : Byte;
   count : Byte;
   tempo : TDateTime;
 begin
@@ -864,34 +964,84 @@ begin
   Application.ProcessMessages;
 //  PnStatusConexao.Visible := False;
 
+//  Origem := 0;
+//  Complemento := 0;
+//  Dia := 0;
+//  Mes := 0;
+//  Hora := 0;
+//  Minuto := 0;
+//  Segundo := 0;
+
   with InnerCadastrados[InnerAtual] do
   begin
 
     try
     
-      Retorno := ReceberDadosOnLine(Numero, @Origem, @Complemento, @Cartao, @Dia, @Mes, @Ano, @Hora, @Minuto, @Segundo);
+      Retorno := ReceberDadosOnLine(Numero, @BilheteInner.Origem,
+                                    @BilheteInner.Complemento, @BilheteInner.Cartao,
+                                    @BilheteInner.Dia, @BilheteInner.Mes,
+                                    @BilheteInner.Ano, @BilheteInner.Hora,
+                                    @BilheteInner.Minuto, @BilheteInner.Segundo);
 
       if ( Retorno = RET_OK ) then
       begin
 
 //        EstadoAtual := ESTADO_TRATA_CARTAO_TRATA_CONFIGS;
+        ShowMessage( IntToStr( BilheteInner.Dia ) );
 
-          for Count := 0 to Length( Cartao ) do
+        for Count := 0 to Length( BilheteInner.Cartao ) do
+        begin
+          if( BilheteInner.Cartao[Count] = #0 )then
           begin
-
-            if( Cartao[Count] = #0 ) then
-            begin
-
-              Break;
-
-            end;
-
-            CartaoRecebido := CartaoRecebido + Cartao[Count];
-
+            Break;
           end;
+          sBilheteRecebido := sBilheteRecebido + BilheteInner.Cartao[Count];
+        end;
 
+        if ( QtdDigitos > Length( sBilheteRecebido ) ) then
+        begin
+
+          tam := Length( sBilheteRecebido );
+
+        end
+        else
+        begin
+
+          tam := QtdDigitos;
+
+        end;
+
+        strCartao := '';
+
+        for Count := 0 to tam - 1 do
+        begin
+
+          strCartao := strCartao + BilheteInner.Cartao[Count];
+
+        end;
+
+        sNumCartao := strCartao;
+
+
+
+
+
+//          for Count := 0 to Length( Cartao ) do
+//          begin
+//
+//            if( Cartao[Count] = #0 ) then
+//            begin
+//
+//              Break;
+//
+//            end;
+//
+//            CartaoRecebido := CartaoRecebido + Cartao[Count];
+//
+//          end;
+//
           ShowMessage('Estado de pooling OK');
-          ShowMessage( CartaoRecebido );
+          ShowMessage( sNumCartao );
           HabilitarLadoCatraca('Entrada');
           EstadoAtual := ESTADO_LIBERAR_CATRACA;
 
@@ -1090,7 +1240,7 @@ begin
 
       ValorDecimal := ConfigurarEntradaMudancasOnline(InnerAtual);
 
-      Retorno := EnviarFormasEntradasOnLine(Numero, QtdDigitos, 1, ValorDecimal, 15, 17);
+      Retorno := EnviarFormasEntradasOnLine(Numero, QtdDigitos, 1, ValorDecimal, 15, 1);
 
       if ( Retorno = RET_OK ) then
       begin

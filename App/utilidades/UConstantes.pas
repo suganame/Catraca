@@ -53,7 +53,7 @@ uses Bilhete;
 
   );
 
-  type inner = Record
+  type Inner = Record
     Numero                      : Integer;
     PadraoCartao                : Integer;
     CountTentativasEnvioComando : Integer;
@@ -85,6 +85,16 @@ uses Bilhete;
     ValidaSenha                 : Boolean;
     EcoarAsterisco              : Boolean;
     BilheteInner                : TBilhete;
+  End;
+
+  Type Bilhete = Record
+    Tipo: Byte;
+    Dia: Byte;
+    Mes: Byte;
+    Ano: Byte;
+    Hora: Byte;
+    Minuto: Byte;
+    Cartao: array[0..15] of char;
   End;
 
 

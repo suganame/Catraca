@@ -4,8 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Filectrl,  IWSystem, IniFiles,
-  UConstantes, UFuncoes, Vcl.Menus, UFrmCatraca, UFrmConfiguracoes;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, IWSystem, IniFiles,
+  Filectrl, UConstantes, UFuncoes, Vcl.Menus, UFrmCatraca, UFrmConfiguracoes;
 
 type
   TFrmPrincipal = class(TForm)
@@ -56,18 +56,16 @@ end;
 procedure TFrmPrincipal.Button1Click(Sender: TObject);
 var
   Dir: String;
-  SELDIRHELP : Integer;
 begin
-  SELDIRHELP := 1000;
-  Dir := 'C:\';
-//  if SelectDirectory(
-//    'Selecione o local aonde serão gravados os arquivos de texto:', '', Dir,
-//    [sdNewUI, sdNewFolder]) then
-//    Edit1.Text := Dir;
-
-    Dir := 'C:\Windows';
- if SelectDirectory('Local', '', Dir, [sdNewUI, sdPerformCreate, sdPrompt],SELDIRHELP) then
+  Dir := '';
+  if SelectDirectory(
+    'Selecione o local aonde serão gravados os arquivos de texto:', '', Dir,
+    [sdNewUI, sdNewFolder]) then
     Edit1.Text := Dir;
+
+//    Dir := 'C:\Windows';
+// if SelectDirectory(Dir, [sdAllowCreate, sdPerformCreate, sdPrompt], 1000) then
+//    Edit1.Text := Dir;
 end;
 
 procedure TFrmPrincipal.CarregarIni;
