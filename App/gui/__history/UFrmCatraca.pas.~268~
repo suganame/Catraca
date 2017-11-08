@@ -24,10 +24,6 @@ type
     LblTituloCatraca: TLabel;
     LblTextoCatraca: TLabel;
     TmrDelay: TTimer;
-    Button6: TButton;
-    Button7: TButton;
-    Button8: TButton;
-    Button9: TButton;
     PnBordaImagem: TPanel;
     PnFundoImagem: TPanel;
     ImgFotoAssociado: TImage;
@@ -39,6 +35,10 @@ type
     EdtParcelasVencidas: TEdit;
     LblTipoPessoa: TLabel;
     EdtTipoPessoa: TEdit;
+    Button6: TButton;
+    Button7: TButton;
+    Button8: TButton;
+    Button9: TButton;
     Button10: TButton;
     Button11: TButton;
     procedure Button1Click(Sender: TObject);
@@ -229,6 +229,7 @@ begin
     4 - Acesso liberado, mas com atrasado
     5 - Acesso Negado
     6 - Usuário não cadastrado
+    7 - Saída liberada
   }
 
   case Status of
@@ -299,6 +300,17 @@ begin
         PnBordaImagem.Color := CorVermelha;
         LblTituloCatraca.Caption := 'Acesso Negado';
         LblTextoCatraca.Caption := 'Usuário não cadastrado, verifique com a secretaria.';
+
+      end;
+
+    7:
+      begin
+
+        EsconderFormulario();
+        PnStatusCatraca.Color := CorVerde;
+        PnBordaImagem.Color := CorVerde;
+        LblTituloCatraca.Caption := 'Saída Liberada';
+        LblTextoCatraca.Caption := 'Volte sempre!';
 
       end;
 
@@ -376,6 +388,7 @@ procedure TFrmCatraca.EnviarMensagemPadrao;
 begin
 
   lblStatus.Caption := 'Enviando Mensagem Padrao';
+  Application.ProcessMessages;
 
   with InnerCadastrados[InnerAtual] do
   begin
@@ -475,6 +488,7 @@ procedure TFrmCatraca.LiberarCatraca;
 begin
 
   lblStatus.Caption := 'Liberando Giro da catraca';
+  Application.ProcessMessages;
 
   with InnerCadastrados[InnerAtual] do
   begin
@@ -530,7 +544,7 @@ begin
         CountTentativasEnvioComando := 0;
         TempoInicialPingOnLine := Now;
 //        EstadoAtual := ESTADO_MONITORA_GIRO_CATRACA;
-        EstadoAtual := ESTADO_POLLING;
+        EstadoAtual := ESTADO_ENVIAR_MSG_PADRAO;
 
       end
       else
@@ -809,7 +823,7 @@ begin
   CorVerde := TColor($5CB85C);
   CorAzul := TColor($CA8B42);
 
-
+  PnStatusConexao.Color := CorVermelha;
   ArqIni := TIniFile.Create( gsAppPath + 'ini.ini' );
 
 end;
@@ -845,7 +859,9 @@ var
 begin
 
   lblStatus.Caption := 'Estado de polling';
-  PnStatusConexao.Visible := False;
+  SetStatusCatraca(2);
+  Application.ProcessMessages;
+//  PnStatusConexao.Visible := False;
 
   with InnerCadastrados[InnerAtual] do
   begin
@@ -874,6 +890,7 @@ begin
           end;
 
           ShowMessage('Estado de pooling OK');
+          ShowMessage( CartaoRecebido );
           HabilitarLadoCatraca('Entrada');
           EstadoAtual := ESTADO_LIBERAR_CATRACA;
 
@@ -959,6 +976,7 @@ begin
   LblStatus.Caption := 'Tentando conectar ao inner';
   PnStatusConexao.Color := CorVermelha;
   PnStatusConexao.Visible := True;
+  SetStatusCatraca(1);
   Application.ProcessMessages;
 
 
@@ -1255,7 +1273,7 @@ end;
 procedure TFrmCatraca.Reconectar;
 begin
 
-  lblStatus.Caption := 'Tentando reconexao';
+  lblStatus.Caption := 'Tentando conectar ao inner';
   PnStatusConexao.Color := CorVermelha;
   PnStatusConexao.Visible := True;
 
@@ -1277,7 +1295,7 @@ begin
 //      Parar := True;
       Application.ProcessMessages;
       CountTentativasEnvioComando := 0;
-//      EstadoAtual := ESTADO_ENVIAR_CFG_ONLINE;
+      EstadoAtual := ESTADO_ENVIAR_CFG_ONLINE;
 
     end
 

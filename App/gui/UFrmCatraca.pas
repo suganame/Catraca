@@ -388,6 +388,7 @@ procedure TFrmCatraca.EnviarMensagemPadrao;
 begin
 
   lblStatus.Caption := 'Enviando Mensagem Padrao';
+  Application.ProcessMessages;
 
   with InnerCadastrados[InnerAtual] do
   begin
@@ -399,7 +400,7 @@ begin
       if ( Retorno = RET_OK ) then
       begin
 
-        ShowMessage('Mensagem enviada OK');
+//        ShowMessage('Mensagem enviada OK');
         EstadoAtual := ESTADO_CONFIGURAR_ENTRADAS_ONLINE;
         CountTentativasEnvioComando := 0;
       
@@ -487,6 +488,7 @@ procedure TFrmCatraca.LiberarCatraca;
 begin
 
   lblStatus.Caption := 'Liberando Giro da catraca';
+  Application.ProcessMessages;
 
   with InnerCadastrados[InnerAtual] do
   begin
@@ -542,7 +544,7 @@ begin
         CountTentativasEnvioComando := 0;
         TempoInicialPingOnLine := Now;
 //        EstadoAtual := ESTADO_MONITORA_GIRO_CATRACA;
-        EstadoAtual := ESTADO_POLLING;
+        EstadoAtual := ESTADO_ENVIAR_MSG_PADRAO;
 
       end
       else
@@ -685,6 +687,7 @@ procedure TFrmCatraca.EnviarPingOnline;
 begin
 
   lblStatus.Caption := 'Ping Online';
+  Application.ProcessMessages;
 
   with InnerCadastrados[InnerAtual] do
   begin
@@ -857,7 +860,9 @@ var
 begin
 
   lblStatus.Caption := 'Estado de polling';
-  PnStatusConexao.Visible := False;
+  SetStatusCatraca(2);
+  Application.ProcessMessages;
+//  PnStatusConexao.Visible := False;
 
   with InnerCadastrados[InnerAtual] do
   begin
@@ -870,6 +875,7 @@ begin
       begin
 
 //        EstadoAtual := ESTADO_TRATA_CARTAO_TRATA_CONFIGS;
+        ShowMessage( IntToStr( Dia ) );
 
           for Count := 0 to Length( Cartao ) do
           begin
@@ -886,6 +892,7 @@ begin
           end;
 
           ShowMessage('Estado de pooling OK');
+          ShowMessage( CartaoRecebido );
           HabilitarLadoCatraca('Entrada');
           EstadoAtual := ESTADO_LIBERAR_CATRACA;
 
@@ -971,6 +978,7 @@ begin
   LblStatus.Caption := 'Tentando conectar ao inner';
   PnStatusConexao.Color := CorVermelha;
   PnStatusConexao.Visible := True;
+  SetStatusCatraca(1);
   Application.ProcessMessages;
 
 
@@ -1233,7 +1241,7 @@ begin
       if( retorno = RET_OK ) then
       begin
 
-        ShowMessage('Enviado Novo Relógio OK');
+//        ShowMessage('Enviado Novo Relógio OK');
 
         EstadoAtual := ESTADO_ENVIAR_MSG_PADRAO;
         CountTentativasEnvioComando := 0;
@@ -1289,7 +1297,7 @@ begin
 //      Parar := True;
       Application.ProcessMessages;
       CountTentativasEnvioComando := 0;
-//      EstadoAtual := ESTADO_ENVIAR_CFG_ONLINE;
+      EstadoAtual := ESTADO_ENVIAR_CFG_ONLINE;
 
     end
 

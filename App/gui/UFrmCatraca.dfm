@@ -157,7 +157,6 @@ object FrmCatraca: TFrmCatraca
     Color = clPurple
     ParentBackground = False
     TabOrder = 6
-    ExplicitTop = -8
     object LblTituloCatraca: TLabel
       Left = 47
       Top = 24
