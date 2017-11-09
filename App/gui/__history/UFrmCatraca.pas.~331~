@@ -75,6 +75,7 @@ type
     procedure MostrarFormulario();
 
     procedure ConectaBanco();
+//    procedure BuscaUsuario();
 
     procedure GravaIni();
     procedure CarregaIni();
@@ -662,10 +663,6 @@ begin
   end;
 end;
 
-procedure TFrmCatraca.MonitorarGiro;
-begin
-
-end;
 
 procedure TFrmCatraca.MonitorarGiroCatraca;
 var
@@ -956,7 +953,7 @@ var
   sNumCartao : string;
   tam : Byte;
   count : Byte;
-  tempo : TDateTime;
+  Tempo : TDateTime;
 begin
 
   lblStatus.Caption := 'Estado de polling';
@@ -988,6 +985,12 @@ begin
 
 //        EstadoAtual := ESTADO_TRATA_CARTAO_TRATA_CONFIGS;
         ShowMessage( IntToStr( BilheteInner.Dia ) );
+        ShowMessage( IntToStr( BilheteInner.Mes ) );
+        ShowMessage( IntToStr( BilheteInner.Ano ) );
+
+        ShowMessage( IntToStr( BilheteInner.Hora ) );
+        ShowMessage( IntToStr( BilheteInner.Minuto ) );
+        ShowMessage( IntToStr( BilheteInner.Segundo ) );
 
         for Count := 0 to Length( BilheteInner.Cartao ) do
         begin
@@ -1022,36 +1025,18 @@ begin
 
         sNumCartao := strCartao;
 
-
-
-
-
-//          for Count := 0 to Length( Cartao ) do
-//          begin
-//
-//            if( Cartao[Count] = #0 ) then
-//            begin
-//
-//              Break;
-//
-//            end;
-//
-//            CartaoRecebido := CartaoRecebido + Cartao[Count];
-//
-//          end;
-//
-          ShowMessage('Estado de pooling OK');
-          ShowMessage( sNumCartao );
-          HabilitarLadoCatraca('Entrada');
-          EstadoAtual := ESTADO_LIBERAR_CATRACA;
+        ShowMessage('Estado de pooling OK');
+        ShowMessage( sNumCartao );
+        HabilitarLadoCatraca('Entrada');
+        EstadoAtual := ESTADO_LIBERAR_CATRACA;
 
       end
       else
       begin
 
-        tempo := Now - TempoInicialPingOnLine;
+        Tempo := Now - TempoInicialPingOnLine;
 
-        if ( StrToInt( FormatDateTime('ss', tempo) ) >= 3 ) then
+        if ( StrToInt( FormatDateTime('ss', Tempo) ) >= 3 ) then
         begin    
         
           EstadoSolicitacaoPingOnLine := EstadoAtual;
@@ -1064,6 +1049,13 @@ begin
       end;
     
     except
+
+      if not( BilheteInner = nil ) then
+      begin
+
+        BilheteInner.Destroy;
+
+      end;
 
       EstadoAtual := ESTADO_CONECTAR;
 
@@ -1088,9 +1080,9 @@ begin
       DriverName := 'Firebird';
       VendorLib := 'fbclient.dll';
       Params.Values['DriverName'] := 'Firebird';
-      Params.Values['DataBase'] := 'C:\SOLIDUS\DADOS\GESTAO.FDB';
+      Params.Values['DataBase'] := 'C:\Users\Gui\Desktop\Catraca\ASSOCIADOS.FDB';
       Params.Values['RoleName'] := '';
-      Params.Values['User_Name'] := 'sysdba';
+      Params.Values['User_Name'] := 'SYSDBA';
       Params.Values['Password'] := 'masterkey';
       Params.Values['ServerCharSet'] := '';
       Params.Values['SQLDialect'] := '3';

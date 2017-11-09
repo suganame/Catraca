@@ -75,6 +75,7 @@ type
     procedure MostrarFormulario();
 
     procedure ConectaBanco();
+    procedure BuscaUsuario();
 
     procedure GravaIni();
     procedure CarregaIni();
@@ -134,6 +135,19 @@ begin
   
   BinarioParaDecimal := FloatToStr(decimal);
   
+end;
+
+procedure TFrmCatraca.BuscaUsuario;
+begin
+
+  with QryPrincipal do
+  Begin
+
+    Close;
+    SQL.Clear;
+
+  End;
+
 end;
 
 procedure TFrmCatraca.Button10Click(Sender: TObject);
@@ -662,10 +676,6 @@ begin
   end;
 end;
 
-procedure TFrmCatraca.MonitorarGiro;
-begin
-
-end;
 
 procedure TFrmCatraca.MonitorarGiroCatraca;
 var
@@ -1053,6 +1063,13 @@ begin
     
     except
 
+      if not( BilheteInner = nil ) then
+      begin
+
+        BilheteInner.Destroy;
+
+      end;
+
       EstadoAtual := ESTADO_CONECTAR;
 
     end;
@@ -1076,9 +1093,9 @@ begin
       DriverName := 'Firebird';
       VendorLib := 'fbclient.dll';
       Params.Values['DriverName'] := 'Firebird';
-      Params.Values['DataBase'] := 'C:\SOLIDUS\DADOS\GESTAO.FDB';
+      Params.Values['DataBase'] := 'C:\Users\Gui\Desktop\Catraca\ASSOCIADOS.FDB';
       Params.Values['RoleName'] := '';
-      Params.Values['User_Name'] := 'sysdba';
+      Params.Values['User_Name'] := 'SYSDBA';
       Params.Values['Password'] := 'masterkey';
       Params.Values['ServerCharSet'] := '';
       Params.Values['SQLDialect'] := '3';

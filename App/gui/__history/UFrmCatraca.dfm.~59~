@@ -5,7 +5,7 @@ object FrmCatraca: TFrmCatraca
   BorderIcons = []
   BorderStyle = bsNone
   ClientHeight = 600
-  ClientWidth = 1024
+  ClientWidth = 1038
   Color = clWhite
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,6 +16,7 @@ object FrmCatraca: TFrmCatraca
   WindowState = wsMaximized
   OnActivate = FormActivate
   OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -127,13 +128,12 @@ object FrmCatraca: TFrmCatraca
   object PnStatusConexao: TPanel
     Left = 0
     Top = 559
-    Width = 1024
+    Width = 1038
     Height = 41
     Align = alBottom
     Color = clRed
     ParentBackground = False
     TabOrder = 5
-    Visible = False
     object LblStatus: TLabel
       Left = 380
       Top = 2
@@ -151,7 +151,7 @@ object FrmCatraca: TFrmCatraca
   object PnStatusCatraca: TPanel
     Left = 0
     Top = 0
-    Width = 1024
+    Width = 1038
     Height = 150
     Align = alTop
     Color = clPurple
@@ -186,42 +186,6 @@ object FrmCatraca: TFrmCatraca
       ParentFont = False
     end
   end
-  object Button6: TButton
-    Left = 365
-    Top = 156
-    Width = 75
-    Height = 25
-    Caption = 'Erro'
-    TabOrder = 7
-    OnClick = Button6Click
-  end
-  object Button7: TButton
-    Left = 604
-    Top = 156
-    Width = 75
-    Height = 25
-    Caption = 'Parcela atrasada'
-    TabOrder = 8
-    OnClick = Button7Click
-  end
-  object Button8: TButton
-    Left = 446
-    Top = 156
-    Width = 75
-    Height = 25
-    Caption = 'liberado'
-    TabOrder = 9
-    OnClick = Button8Click
-  end
-  object Button9: TButton
-    Left = 527
-    Top = 156
-    Width = 75
-    Height = 25
-    Caption = 'Button9'
-    TabOrder = 10
-    OnClick = Button9Click
-  end
   object PnBordaImagem: TPanel
     Left = 24
     Top = 207
@@ -230,7 +194,7 @@ object FrmCatraca: TFrmCatraca
     Caption = 'PnBordaImagem'
     Color = clPurple
     ParentBackground = False
-    TabOrder = 11
+    TabOrder = 7
     Visible = False
     object PnFundoImagem: TPanel
       Left = 3
@@ -809,7 +773,7 @@ object FrmCatraca: TFrmCatraca
     Font.Name = 'Franklin Gothic Book'
     Font.Style = []
     ParentFont = False
-    TabOrder = 12
+    TabOrder = 8
     Text = 'Guilherme Suganame'
     Visible = False
   end
@@ -825,7 +789,7 @@ object FrmCatraca: TFrmCatraca
     Font.Name = 'Franklin Gothic Book'
     Font.Style = []
     ParentFont = False
-    TabOrder = 13
+    TabOrder = 9
     Text = '0000000018'
     Visible = False
   end
@@ -841,7 +805,7 @@ object FrmCatraca: TFrmCatraca
     Font.Name = 'Franklin Gothic Book'
     Font.Style = []
     ParentFont = False
-    TabOrder = 14
+    TabOrder = 10
     Text = '1'
     Visible = False
   end
@@ -857,9 +821,45 @@ object FrmCatraca: TFrmCatraca
     Font.Name = 'Franklin Gothic Book'
     Font.Style = []
     ParentFont = False
-    TabOrder = 15
+    TabOrder = 11
     Text = 'Titular'
     Visible = False
+  end
+  object Button6: TButton
+    Left = 365
+    Top = 156
+    Width = 75
+    Height = 25
+    Caption = 'Erro'
+    TabOrder = 12
+    OnClick = Button6Click
+  end
+  object Button7: TButton
+    Left = 604
+    Top = 156
+    Width = 75
+    Height = 25
+    Caption = 'Parcela atrasada'
+    TabOrder = 13
+    OnClick = Button7Click
+  end
+  object Button8: TButton
+    Left = 446
+    Top = 156
+    Width = 75
+    Height = 25
+    Caption = 'liberado'
+    TabOrder = 14
+    OnClick = Button8Click
+  end
+  object Button9: TButton
+    Left = 527
+    Top = 156
+    Width = 75
+    Height = 25
+    Caption = 'Button9'
+    TabOrder = 15
+    OnClick = Button9Click
   end
   object Button10: TButton
     Left = 685
@@ -884,11 +884,11 @@ object FrmCatraca: TFrmCatraca
     Params = <>
     SQLConnection = ScnBanco
     Left = 640
-    Top = 528
+    Top = 504
   end
   object ScnBanco: TSQLConnection
     Left = 696
-    Top = 528
+    Top = 504
   end
   object TmrStatusCatraca: TTimer
     Interval = 300

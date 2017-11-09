@@ -112,7 +112,6 @@ object FrmCatraca: TFrmCatraca
     Height = 25
     Caption = 'Conectar com o banco'
     TabOrder = 3
-    Visible = False
     OnClick = Button4Click
   end
   object Button5: TButton
@@ -122,7 +121,6 @@ object FrmCatraca: TFrmCatraca
     Height = 25
     Caption = 'Executar select'
     TabOrder = 4
-    Visible = False
     OnClick = Button5Click
   end
   object PnStatusConexao: TPanel

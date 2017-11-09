@@ -75,6 +75,7 @@ type
     procedure MostrarFormulario();
 
     procedure ConectaBanco();
+    procedure BuscaUsuario();
 
     procedure GravaIni();
     procedure CarregaIni();
@@ -134,6 +135,19 @@ begin
   
   BinarioParaDecimal := FloatToStr(decimal);
   
+end;
+
+procedure TFrmCatraca.BuscaUsuario;
+begin
+
+  with QryPrincipal do
+  Begin
+
+    Close;
+    SQL.Clear;
+
+  End;
+
 end;
 
 procedure TFrmCatraca.Button10Click(Sender: TObject);
@@ -338,17 +352,26 @@ begin
   with QryPrincipal do
   begin
 
-    Close;
-    SQL.Clear;
+    Try
 
-    SQL.Add('SELECT * FROM TAB_CLIENTE');
+      Close;
+      SQL.Clear;
 
-    Open;
-    First;
+      SQL.Add('SELECT * FROM TAB_CLIENTE');
+
+      Open;
+      First;
+    
+    Finally
+
+      Close;
+    
+    End;
+
+    
 
   end;
-
-  QryPrincipal.RecordCount;
+  
 
   ShowMessage( IntToStr( QryPrincipal.RecordCount ) );
 
@@ -662,10 +685,6 @@ begin
   end;
 end;
 
-procedure TFrmCatraca.MonitorarGiro;
-begin
-
-end;
 
 procedure TFrmCatraca.MonitorarGiroCatraca;
 var
@@ -988,6 +1007,12 @@ begin
 
 //        EstadoAtual := ESTADO_TRATA_CARTAO_TRATA_CONFIGS;
         ShowMessage( IntToStr( BilheteInner.Dia ) );
+        ShowMessage( IntToStr( BilheteInner.Mes ) );
+        ShowMessage( IntToStr( BilheteInner.Ano ) );
+
+        ShowMessage( IntToStr( BilheteInner.Hora ) );
+        ShowMessage( IntToStr( BilheteInner.Minuto ) );
+        ShowMessage( IntToStr( BilheteInner.Segundo ) );
 
         for Count := 0 to Length( BilheteInner.Cartao ) do
         begin
@@ -1031,9 +1056,9 @@ begin
       else
       begin
 
-        tempo := Now - TempoInicialPingOnLine;
+        Tempo := Now - TempoInicialPingOnLine;
 
-        if ( StrToInt( FormatDateTime('ss', tempo) ) >= 3 ) then
+        if ( StrToInt( FormatDateTime('ss', Tempo) ) >= 3 ) then
         begin    
         
           EstadoSolicitacaoPingOnLine := EstadoAtual;
@@ -1046,6 +1071,13 @@ begin
       end;
     
     except
+
+      if not( BilheteInner = nil ) then
+      begin
+
+        BilheteInner.Destroy;
+
+      end;
 
       EstadoAtual := ESTADO_CONECTAR;
 
@@ -1070,9 +1102,9 @@ begin
       DriverName := 'Firebird';
       VendorLib := 'fbclient.dll';
       Params.Values['DriverName'] := 'Firebird';
-      Params.Values['DataBase'] := 'C:\SOLIDUS\DADOS\GESTAO.FDB';
+      Params.Values['DataBase'] := 'C:\Users\Gui\Desktop\Catraca\ASSOCIADOS.FDB';
       Params.Values['RoleName'] := '';
-      Params.Values['User_Name'] := 'sysdba';
+      Params.Values['User_Name'] := 'SYSDBA';
       Params.Values['Password'] := 'masterkey';
       Params.Values['ServerCharSet'] := '';
       Params.Values['SQLDialect'] := '3';
