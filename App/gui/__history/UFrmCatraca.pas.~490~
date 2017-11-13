@@ -93,7 +93,7 @@ type
     procedure EnviarDataHora();
     procedure EnviarMensagemPadrao();
     procedure ConfigurarEntradasOnline();
-    procedure Polling();
+    procedure Pooling();
     procedure EnviarPingOnline();
     procedure TrataConfigsCartao();
     procedure LiberarCatraca();
@@ -531,7 +531,7 @@ begin
 
     try
 
-      Retorno := EnviarMensagemPadraoOnLine(Numero, 1, 'Modo Online');
+      Retorno := EnviarMensagemPadraoOnLine(Numero, Opcao_SIM, 'Modo Online');
 
       if (Retorno = RET_OK) then
       begin
@@ -540,6 +540,7 @@ begin
 
         countTentativasEnvioComando := 0;
         EstadoAtual := ESTADO_CONFIGURAR_ENTRADAS_ONLINE;
+
 
       end
       else
@@ -759,7 +760,7 @@ begin
           ConfigurarEntradasOnline();
 
         ESTADO_POLLING:
-          Polling();
+          Pooling();
 
         ESTADO_LIBERAR_CATRACA:
           LiberarCatraca();
@@ -1068,7 +1069,7 @@ begin
 
 end;
 
-procedure TFrmCatraca.Polling;
+procedure TFrmCatraca.Pooling;
 var
   Inner, Origem, Complemento, Dia, Mes, Ano, Hora, Minuto, Segundo : Byte;
   Cartao : array[0..10] of Char;

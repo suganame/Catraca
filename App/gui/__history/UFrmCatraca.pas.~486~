@@ -93,7 +93,7 @@ type
     procedure EnviarDataHora();
     procedure EnviarMensagemPadrao();
     procedure ConfigurarEntradasOnline();
-    procedure Polling();
+    procedure Pooling();
     procedure EnviarPingOnline();
     procedure TrataConfigsCartao();
     procedure LiberarCatraca();
@@ -541,6 +541,7 @@ begin
         countTentativasEnvioComando := 0;
         EstadoAtual := ESTADO_CONFIGURAR_ENTRADAS_ONLINE;
 
+
       end
       else
       begin
@@ -759,7 +760,7 @@ begin
           ConfigurarEntradasOnline();
 
         ESTADO_POLLING:
-          Polling();
+          Pooling();
 
         ESTADO_LIBERAR_CATRACA:
           LiberarCatraca();
@@ -1068,7 +1069,7 @@ begin
 
 end;
 
-procedure TFrmCatraca.Polling;
+procedure TFrmCatraca.Pooling;
 var
   Inner, Origem, Complemento, Dia, Mes, Ano, Hora, Minuto, Segundo : Byte;
   Cartao : array[0..10] of Char;
@@ -1439,8 +1440,6 @@ begin
 end;
 
 procedure TFrmCatraca.EnviarConfigOnline;
-Var
-  Retorno : Integer;
 begin
 
   // Pega as configurações setadas e tenta enviar para o inner
@@ -1498,7 +1497,7 @@ end;
 procedure TFrmCatraca.EnviarDataHora;
 var
   Dia, Mes, Ano, Hora, Minuto, Segundo: Integer;
-  Retorno : Integer;
+  Retorno : Byte;
 begin
 
   LblStatus.Caption := 'Enviando data e hora';
@@ -1526,6 +1525,7 @@ begin
 
         countTentativasEnvioComando := 0;
         EstadoAtual := ESTADO_ENVIAR_MSG_PADRAO;
+
 
       end
       else

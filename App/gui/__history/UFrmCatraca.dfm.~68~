@@ -126,6 +126,7 @@ object FrmCatraca: TFrmCatraca
     Color = clRed
     ParentBackground = False
     TabOrder = 4
+    ExplicitTop = 559
     object LblStatus: TLabel
       Left = 380
       Top = 2

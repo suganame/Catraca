@@ -18,14 +18,11 @@ object FrmCatraca: TFrmCatraca
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
-  DesignSize = (
-    1038
-    800)
   PixelsPerInch = 96
   TextHeight = 13
   object LblNome: TLabel
     Left = 408
-    Top = 199
+    Top = 207
     Width = 80
     Height = 33
     Caption = 'Nome:'
@@ -39,7 +36,7 @@ object FrmCatraca: TFrmCatraca
   end
   object LblCartao: TLabel
     Left = 408
-    Top = 313
+    Top = 305
     Width = 119
     Height = 33
     Caption = 'Cart'#227'o n'#186':'
@@ -52,8 +49,8 @@ object FrmCatraca: TFrmCatraca
     Visible = False
   end
   object LblParcelasVencidas: TLabel
-    Left = 736
-    Top = 432
+    Left = 712
+    Top = 416
     Width = 212
     Height = 33
     Caption = 'Parcelas vencidas:'
@@ -67,7 +64,7 @@ object FrmCatraca: TFrmCatraca
   end
   object LblTipoPessoa: TLabel
     Left = 408
-    Top = 432
+    Top = 416
     Width = 181
     Height = 33
     Caption = 'Tipo de pessoa:'
@@ -126,6 +123,7 @@ object FrmCatraca: TFrmCatraca
     Color = clRed
     ParentBackground = False
     TabOrder = 4
+    ExplicitTop = 559
     object LblStatus: TLabel
       Left = 380
       Top = 2
@@ -755,10 +753,9 @@ object FrmCatraca: TFrmCatraca
   end
   object EdtNome: TEdit
     Left = 408
-    Top = 232
-    Width = 622
+    Top = 240
+    Width = 409
     Height = 31
-    Anchors = [akLeft, akTop, akRight]
     BorderStyle = bsNone
     Font.Charset = ANSI_CHARSET
     Font.Color = clGray
@@ -772,8 +769,8 @@ object FrmCatraca: TFrmCatraca
   end
   object EdtCartao: TEdit
     Left = 408
-    Top = 347
-    Width = 609
+    Top = 339
+    Width = 409
     Height = 33
     BorderStyle = bsNone
     Font.Charset = ANSI_CHARSET
@@ -787,8 +784,8 @@ object FrmCatraca: TFrmCatraca
     Visible = False
   end
   object EdtParcelasVencidas: TEdit
-    Left = 736
-    Top = 472
+    Left = 712
+    Top = 456
     Width = 49
     Height = 33
     BorderStyle = bsNone
@@ -804,7 +801,7 @@ object FrmCatraca: TFrmCatraca
   end
   object EdtTipoPessoa: TEdit
     Left = 408
-    Top = 471
+    Top = 455
     Width = 206
     Height = 31
     BorderStyle = bsNone
@@ -825,7 +822,6 @@ object FrmCatraca: TFrmCatraca
     Height = 25
     Caption = 'Erro'
     TabOrder = 11
-    Visible = False
     OnClick = Button6Click
   end
   object Button7: TButton
@@ -835,7 +831,6 @@ object FrmCatraca: TFrmCatraca
     Height = 25
     Caption = 'Parcela atrasada'
     TabOrder = 12
-    Visible = False
     OnClick = Button7Click
   end
   object Button8: TButton
@@ -845,7 +840,6 @@ object FrmCatraca: TFrmCatraca
     Height = 25
     Caption = 'liberado'
     TabOrder = 13
-    Visible = False
     OnClick = Button8Click
   end
   object Button9: TButton
@@ -855,7 +849,6 @@ object FrmCatraca: TFrmCatraca
     Height = 25
     Caption = 'Button9'
     TabOrder = 14
-    Visible = False
     OnClick = Button9Click
   end
   object Button10: TButton
@@ -865,7 +858,6 @@ object FrmCatraca: TFrmCatraca
     Height = 25
     Caption = 'Button10'
     TabOrder = 15
-    Visible = False
     OnClick = Button10Click
   end
   object Button11: TButton
@@ -875,7 +867,6 @@ object FrmCatraca: TFrmCatraca
     Height = 25
     Caption = 'Button10'
     TabOrder = 16
-    Visible = False
     OnClick = Button11Click
   end
   object Edit1: TEdit
