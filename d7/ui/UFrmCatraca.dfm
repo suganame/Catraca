@@ -776,23 +776,6 @@ object FrmCatraca: TFrmCatraca
     Text = 'Titular'
     Visible = False
   end
-  object Button2: TButton
-    Left = 880
-    Top = 176
-    Width = 75
-    Height = 25
-    Caption = 'Button2'
-    TabOrder = 7
-    OnClick = Button2Click
-  end
-  object Edit1: TEdit
-    Left = 1024
-    Top = 184
-    Width = 121
-    Height = 21
-    TabOrder = 8
-    Text = 'Edit1'
-  end
   object TmrStatusConexao: TTimer
     Interval = 300
     OnTimer = TmrStatusConexaoTimer

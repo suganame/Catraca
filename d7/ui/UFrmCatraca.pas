@@ -29,8 +29,6 @@ type
     TmrDelayConexao: TTimer;
     scnBanco: TSQLConnection;
     qryPrincipal: TSQLQuery;
-    Button2: TButton;
-    Edit1: TEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure TmrStatusConexaoTimer(Sender: TObject);
     procedure TmrDelayConexaoTimer(Sender: TObject);
@@ -44,7 +42,6 @@ type
     procedure Button11Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-    procedure Button2Click(Sender: TObject);
   private
     { Private declarations }
 
@@ -81,6 +78,8 @@ type
     procedure LiberarCatraca();
     procedure FecharConexao();
     procedure MonitorarGiroCatraca();
+    procedure EnviarMensagemAcessoNegado();
+    procedure AguardaTempoMensagem();
 
   public
     { Public declarations }
@@ -417,7 +416,7 @@ begin
         ESTADO_LIBERAR_CATRACA:
           LiberarCatraca();
 
-        ESTADO_ENVIAR_BIPCURTO:
+        ESTADO_MONITORA_GIRO_CATRACA:
           MonitorarGiroCatraca();
 
         PING_ONLINE:
@@ -426,7 +425,9 @@ begin
         ESTADO_RECONECTAR:
           Reconectar();
 
-        // AGUARDA_TEMPO_MENSAGEM: ;
+         AGUARDA_TEMPO_MENSAGEM:
+          AguardaTempoMensagem();
+
         // ESTADO_DEFINICAO_TECLADO: ;
         // ESTADO_AGUARDAR_DEFINICAO_TECLADO: ;
         // ESTADO_ENVIA_MSG_URNA: ;
@@ -434,7 +435,9 @@ begin
         // ESTADO_ENVIAR_MENSAGEM: ;
         // ESTADO_ENVIAR_HORARIOS: ;
         // ESTADO_ENVIAR_CONFIGS_ONLINE_OFFLINE: ;
-        // ESTADO_ENVIAR_MSG_ACESSO_NEGADO: ;
+
+         ESTADO_ENVIAR_MSG_ACESSO_NEGADO:
+          EnviarMensagemAcessoNegado();
 
         ESTADO_TRATA_CARTAO_TRATA_CONFIGS:
           TrataConfigsCartao();
@@ -670,6 +673,7 @@ end;
 procedure TFrmCatraca.EnviarMensagemPadrao;
 begin
 
+  pnStatusConexao.Visible := False;
   lblStatusConexao.Caption := 'Enviando Mensagem Padrao';
   Application.ProcessMessages;
 
@@ -764,34 +768,22 @@ begin
 
     TRY
       // Envia comando de liberar a catraca para Entrada.
-      if (LiberaEntrada) then
+      if (LiberaEntradaInvertida) then
       begin
-        EnviarMensagemPadraoOnLine(InnerCadastrados[InnerAtual].Numero, 0,'ENTRADA LIBERADA');
-        LiberaEntrada := False;
-        Retorno := LiberarCatracaEntrada(InnerCadastrados[InnerAtual].Numero);
-      end
-      else if (LiberaEntradaInvertida) then
-      begin
-        EnviarMensagemPadraoOnLine(Numero, 0, 'ENTRADA LIBERADA');
+        EnviarMensagemPadraoOnLine(Numero, 0, 'SAIDA LIBERADA');
         LiberaEntradaInvertida := False;
-        Retorno := LiberarCatracaEntradaInvertida( InnerCadastrados[InnerAtual].Numero );
-      end
-      else if (LiberaSaida) then
-      begin
-        EnviarMensagemPadraoOnLine(InnerCadastrados[InnerAtual].Numero, 0,'SAIDA LIBERADA');
-        LiberaSaida := False;
-        Retorno := LiberarCatracaSaida( InnerCadastrados[InnerAtual].Numero );
+        Retorno := LiberarCatracaSaidaInvertida( InnerCadastrados[InnerAtual].Numero );
       end
       else if (LiberaSaidaInvertida) then
       begin
-        EnviarMensagemPadraoOnLine(Numero, 0, 'SAIDA LIBERADA');
+        EnviarMensagemPadraoOnLine(InnerCadastrados[InnerAtual].Numero, 0, 'ENTRADA LIBERADA');
         LiberaSaidaInvertida := False;
-        Retorno := LiberarCatracaSaidaInvertida( InnerCadastrados[InnerAtual].Numero );
+        Retorno := LiberarCatracaEntradaInvertida( InnerCadastrados[InnerAtual].Numero );
       end
       else
       begin
         EnviarMensagemPadraoOnLine(Numero, 0, 'LIBERADO DOIS SENTIDOS');
-        Retorno := LiberarCatracadoisSentidos( InnerCadastrados[InnerAtual].Numero );
+        Retorno := LiberarCatracadoisSentidos(Numero);
       end;
 
       // Testa Retorno do comando..
@@ -801,6 +793,7 @@ begin
         InnerCadastrados[InnerAtual].CountPingFail := 0;
         InnerCadastrados[InnerAtual].CountTentativasEnvioComando := 0;
         InnerCadastrados[InnerAtual].TempoInicialPingOnLine := Now;
+        //InnerCadastrados[InnerAtual].EstadoAtual := ESTADO_ENVIAR_MSG_PADRAO;
         InnerCadastrados[InnerAtual].EstadoAtual := ESTADO_MONITORA_GIRO_CATRACA;
       end
       else
@@ -824,7 +817,7 @@ end;
 
 procedure TFrmCatraca.MonitorarGiroCatraca;
 var
-  Inner, Origem, Complemento, Dia, Mes, Ano, Hora, Minuto, Segundo : Byte;
+  Origem, Complemento, Dia, Mes, Ano, Hora, Minuto, Segundo : Byte;
   Cartao : array[0..10] of Char;
   Tempo: TDateTime;
 begin
@@ -844,13 +837,27 @@ begin
       Segundo := 0;
 
       // Monitora o giro da catraca..
-      Retorno := ReceberDadosOnLine(Numero, @Origem, @Complemento,
+      Retorno := ReceberDadosOnLine(InnerCadastrados[InnerAtual].Numero, @Origem, @Complemento,
                                 @Cartao, @Dia, @Mes, @Ano, @Hora,
                                 @Minuto, @Segundo);
 
       // Testa o retorno do comando..
+
       if (Retorno = RET_OK) then
       begin
+
+        if ( Origem = 5) then
+        begin
+
+          //ShowMessage('Não rodou');
+
+        end
+        else if( Origem = 6 )  then
+        begin
+
+          //ShowMessage('Rodou a catraca');
+
+        end;
 
         InnerCadastrados[InnerAtual].EstadoAtual := ESTADO_ENVIAR_MSG_PADRAO;
         
@@ -877,9 +884,8 @@ end;
 
 procedure TFrmCatraca.Polling;
 var
-  Inner, Origem, Complemento, Dia, Mes, Ano, Hora, Minuto, Segundo : Byte;
+  Origem, Complemento, Dia, Mes, Ano, Hora, Minuto, Segundo : Byte;
   Cartao : array[0..10] of Char;
-  count: Byte;
   Tempo: TDateTime;
   Retorno : Byte;
 begin
@@ -895,12 +901,6 @@ begin
   Hora := 0;
   Minuto := 0;
   Segundo := 0;
-
-  {if ( BuscaUsuario('0101015627') = True ) then
-  begin
-    ShowMessage('Usuario encontrado');
-  end; }
-
 
   with InnerCadastrados[InnerAtual] do
   begin
@@ -924,24 +924,41 @@ begin
 				    Exit;
 			    end;
 
-        ShowMessage('Polling True');
 
-        ShowMessage(Cartao);
+        //0 - entrada
+        // 1 - saida
 
+        if( BuscaUsuario(Cartao) ) then
+        begin
 
-        if ( complemento = 1 ) then
-          HabilitarLadoCatraca('Entrada')
-        else
-          HabilitarLadoCatraca('Saida');
+          Sleep(3000);
 
+          if ( complemento = 1 ) then
+          begin
+            //LiberarCatracaSaidaInvertida( InnerCadastrados[InnerAtual].Numero );
+            LiberaEntradaInvertida := True;
+          end
+          else if ( complemento = 0 ) then
+          begin
+            //LiberarCatracaEntradaInvertida( InnerCadastrados[InnerAtual].Numero );
+            LiberaSaidaInvertida := True;
+          end;
 
-        InnerCadastrados[InnerAtual].EstadoAtual := ESTADO_LIBERAR_CATRACA;
+          InnerCadastrados[InnerAtual].EstadoAtual := ESTADO_LIBERAR_CATRACA;
 
         end
         else
         begin
 
-        Tempo := Now - InnerCadastrados[InnerAtual].TempoInicialPingOnLine;
+          InnerCadastrados[InnerAtual].EstadoAtual := ESTADO_ENVIAR_MSG_ACESSO_NEGADO;
+
+        end;
+
+        end
+        else
+        begin
+
+          Tempo := Now - InnerCadastrados[InnerAtual].TempoInicialPingOnLine;
 
           if (StrToInt(FormatDateTime('ss', Tempo)) >= 3) then
           begin
@@ -968,7 +985,7 @@ procedure TFrmCatraca.Reconectar;
 begin
 
   SetStatusCatraca(1);
-
+  pnStatusConexao.Visible := True;
   Application.ProcessMessages;
 
   // Estado de reconexão, fica tentando conectar até que consiga uma resposta
@@ -1096,7 +1113,7 @@ end;
 procedure TFrmCatraca.HabilitarLadoCatraca(Lado: String);
 begin
 
-  if ( UpperCase( Lado ) = 'ENTRADA' ) then
+  if ( Lado = 'entrada' ) then
   begin
 
     LiberaEntradaInvertida := True;
@@ -1154,11 +1171,6 @@ begin
 
   end;
 
-end;
-
-procedure TFrmCatraca.Button2Click(Sender: TObject);
-begin
-  BuscaUsuario( Edit1.text );
 end;
 
 function TFrmCatraca.BuscaUsuario(Cartao: String): Boolean;
@@ -1243,32 +1255,31 @@ begin
         else
         begin
 
+          SetUsuario(Nome, Cartao, Tipo, ParcelasAtrasadas, IdPessoa);
+
           if (FieldByName('PARCELAS_ATRASADAS').AsInteger = 1) then
           begin
 
+
+
             SetStatusCatraca(4);
+            BuscaUsuario := True;
 
           end
           else if (FieldByName('PARCELAS_ATRASADAS').AsInteger = 0) then
           begin
 
             SetStatusCatraca(3);
+            BuscaUsuario := True;
 
           end
           else
           begin
 
             SetStatusCatraca(5);
-
-            SetUsuario(Nome, Cartao, Tipo, ParcelasAtrasadas, IdPessoa);
-
             BuscaUsuario := False;
 
           end;
-
-
-          SetUsuario(Nome, Cartao, Tipo, ParcelasAtrasadas, IdPessoa);
-          BuscaUsuario := True;
 
         end;
 
@@ -1313,6 +1324,80 @@ begin
 
   //ImgFotoAssociado.Picture.LoadFromFile('C:\Users\Gui\Desktop\Catraca\Fotos\' + IntToStr(IdPessoa) + '.JPG' );
 
+
+end;
+
+procedure TFrmCatraca.AguardaTempoMensagem;
+var
+  Tempo : TDateTime;
+begin
+
+  with InnerCadastrados[InnerAtual] do
+  begin
+
+    try
+
+        Tempo := Now - InnerCadastrados[InnerAtual].TempoInicialMensagem;
+
+        if( StrToInt( FormatDateTime( 'ss', Tempo ) ) >= 2 ) then
+        begin
+
+          InnerCadastrados[InnerAtual].EstadoAtual := ESTADO_ENVIAR_MSG_PADRAO;
+          DesligarLedVermelho(InnerCadastrados[InnerAtual].Numero);
+
+        end;
+
+    except
+
+        InnerCadastrados[InnerAtual].EstadoAtual := ESTADO_CONECTAR;
+
+    end;
+
+  end;
+
+end;
+
+procedure TFrmCatraca.EnviarMensagemAcessoNegado;
+begin
+
+  with InnerCadastrados[InnerAtual] do
+  begin
+
+    try
+
+        Retorno := EnviarMensagemPadraoOnLine(InnerCadastrados[InnerAtual].Numero, 0, 'Acesso Negado!');
+
+        if ( Retorno = RET_OK ) then
+        begin
+
+          AcionarBipLongo(InnerCadastrados[InnerAtual].Numero);
+          LigarLedVermelho(InnerCadastrados[InnerAtual].Numero);
+          InnerCadastrados[InnerAtual].TempoInicialMensagem := Now;
+          InnerCadastrados[InnerAtual].CountTentativasEnvioComando := 0;
+          InnerCadastrados[InnerAtual].EstadoAtual := AGUARDA_TEMPO_MENSAGEM;
+
+        end
+        else
+        begin
+
+          if( InnerCadastrados[InnerAtual].CountTentativasEnvioComando > 3 ) then
+          begin
+
+            InnerCadastrados[InnerAtual].EstadoAtual := ESTADO_RECONECTAR;
+
+          end;
+
+          Inc(InnerCadastrados[InnerAtual].CountTentativasEnvioComando);
+
+        end;
+
+    except
+
+        InnerCadastrados[InnerAtual].EstadoAtual := ESTADO_CONECTAR;
+
+    end;
+
+  end;
 
 end;
 
