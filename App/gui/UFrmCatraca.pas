@@ -1614,7 +1614,7 @@ begin
 
   Inc(Delay);
 
-  if (Delay = 3) then
+  {if (Delay = 3) then
   begin
 
     SetConfiguracaoInicialInner();
@@ -1633,7 +1633,7 @@ begin
 
     end;
 
-  end;
+  end;  }
 
 end;
 
@@ -1643,7 +1643,7 @@ begin
   LblStatus.Left := LblStatus.Left - 20;
 
   if (LblStatus.Left <= 0 - LblStatus.Width) then
-    LblStatus.Left := PnStatusCatraca.Width;
+    LblStatus.Left := pnS.Width;
 
 end;
 
